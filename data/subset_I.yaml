@@ -1,0 +1,9 @@
+train: subset_I/train.txt
+val: subset_I/val.txt
+test: subset_I/test.txt
+
+# number of classes
+nc: 20
+
+# class names
+names : ["Algue","Dauphin_BleuBlanc","Dauphin_Commun","Déchet","Poisson","Fou_Bassan_Pose","Fou_Bassan_Vol","Goeland_Pose","Goeland_Vol","Grand_Dauphin","Marsouin","Meduse","Petit_Puffin_Pose","Petit_Puffin_Vol","Requin","Sterne_Pose","Sterne_Vol","Delphinid_Ind.","Bateau","Inconnu"]
