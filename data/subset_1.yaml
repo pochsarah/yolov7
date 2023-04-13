@@ -1,6 +1,6 @@
-train: subset_1/train.txt
-val: subset_1/val.txt
-test: subset_1/test.txt
+train: data_cluster/baseline/subset_1/train.txt
+val: data_cluster/baseline/subset_1/val.txt
+test: data_cluster/baseline/subset_1/test.txt
 
 # number of classes
 nc: 20
