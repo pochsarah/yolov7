@@ -9,6 +9,7 @@ setcuda 11.7
 conda activate yolov7
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/share/castor/home/e1800093/.conda/envs/yolov7/lib
 
-python -u train.py --img-size 416 --hyp data/hyp.scratch.custom.yaml --cfg cfg/training/yolov7.yaml --data data/subset_1.yaml --weights yolov7_training.pt --workers 4 --project v4/train --name baseline_sub_1 --device 0 --single-cls
-
+python -u train.py --img-size 416 --hyp data/hyp.scratch.custom.yaml --cfg cfg/training/yolov7.yaml --data data/subset_8.yaml --weights yolov7_training.pt --workers 4 --project v4/train --name baseline_sub_8 --device 0 --single-cls --nosave
+python -u train.py --img-size 416 --hyp data/hyp.scratch.custom.yaml --cfg cfg/training/yolov7.yaml --data data/subset_9.yaml --weights yolov7_training.pt --workers 4 --project v4/train --name baseline_sub_9 --device 0 --single-cls --nosave
+python -u train.py --img-size 416 --hyp data/hyp.scratch.custom.yaml --cfg cfg/training/yolov7.yaml --data data/subset_10.yaml --weights yolov7_training.pt --workers 4 --project v4/train --name baseline_sub_10 --device 0 --single-cls --nosave
 
