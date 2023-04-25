@@ -622,7 +622,7 @@ if __name__ == '__main__':
                 'lrf': (1, 0.01, 1.0),  # final OneCycleLR learning rate (lr0 * lrf)
                 'momentum': (0.3, 0.6, 0.98),  # SGD momentum/Adam beta1
                 'weight_decay': (1, 0.0, 0.001),  # optimizer weight decay
-                'warmup_epochs': (1, 0.0, 10.0),  # warmup epochs (fractions ok)
+                'warmup_epochs': (1, 0.0, 5.0),  # warmup epochs (fractions ok)
                 'warmup_momentum': (1, 0.0, 0.95),  # warmup initial momentum
                 'warmup_bias_lr': (1, 0.0, 0.2),  # warmup initial bias lr
                 'box': (1, 0.02, 0.2),  # box loss gain
