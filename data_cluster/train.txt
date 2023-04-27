@@ -59,3 +59,4 @@
 /mnt/c/Users/sarah/Documents/yolo_data/non_empty/200520_133_4129_9.jpg
 /mnt/c/Users/sarah/Documents/yolo_data/non_empty/200521_133_21631_4.jpg
 /mnt/c/Users/sarah/Documents/yolo_data/non_empty/200520_133_7552_30.jpg
+/mnt/c/Users/sarah/Documents/yolo_data/non_empty/200521_133_21621_1.jpg
