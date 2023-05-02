@@ -4,7 +4,7 @@ depth_multiple: 1.0  # model depth multiple
 width_multiple: 1.0  # layer channel multiple
 
 # anchors
-anchors: 3
+anchors: 1
 #  - [17,20,  24,31,  57,31]   # P3/8
 #  - [35,52,  68,47,  34,100]  # P4/16
 #  - [64,84,  53,115,  95,72]  # P5/32
