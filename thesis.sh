@@ -19,8 +19,14 @@ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/share/castor/home/e1800093/.conda/envs/
 #rm -r data_cluster/baseline/subset_1/*.cache
 
 #evolved - one cycle -sgd
-python -u train.py --weights yolov7_training.pt --cfg cfg/training/yolov7.yaml --data data/subset_1.yaml --hyp data/hyp.scratch.evolved.yaml --img-size 416 --device 0 --single-cls --workers 4 --project v5/train --name final_baseline_subset1_evolved_onecycle_SGD
-rm -r data_cluster/baseline/subset_1/*.cache
+#python -u train.py --weights yolov7_training.pt --cfg cfg/training/yolov7.yaml --data data/subset_1.yaml --hyp data/hyp.scratch.evolved.yaml --img-size 416 --device 0 --single-cls --workers 4 --project v5/train --name final_baseline_subset1_evolved_onecycle_SGD
+#rm -r data_cluster/baseline/subset_1/*.cache
 #evolved - linear - adam
-python -u train.py --weights yolov7_training.pt --cfg cfg/training/yolov7.yaml --data data/subset_1.yaml --hyp data/hyp.scratch.evolved.yaml --img-size 416 --device 0 --single-cls --workers 4 --project v5/train --name final_baseline_subset1_evolved_linear_Adam --linear-lr --adam
-rm -r data_cluster/baseline/subset_1/*.cache
+#python -u train.py --weights yolov7_training.pt --cfg cfg/training/yolov7.yaml --data data/subset_1.yaml --hyp data/hyp.scratch.evolved.yaml --img-size 416 --device 0 --single-cls --workers 4 --project v5/train --name final_baseline_subset1_evolved_linear_Adam --linear-lr --adam
+#rm -r data_cluster/baseline/subset_1/*.cache
+
+python -u train.py --weights yolov7_training.pt --cfg cfg/training/yolov7.yaml --data data/subset_2.yaml --hyp data/hyp.scratch.evolved.yaml --img-size 416 --device 0 --single-cls --workers 4 --project v5/train --name final_baseline_subset2_evolved_linear_SGD --linear-lr
+python -u train.py --weights yolov7_training.pt --cfg cfg/training/yolov7.yaml --data data/subset_3.yaml --hyp data/hyp.scratch.evolved.yaml --img-size 416 --device 0 --single-cls --workers 4 --project v5/train --name final_baseline_subset3_evolved_linear_SGD --linear-lr
+python -u train.py --weights yolov7_training.pt --cfg cfg/training/yolov7.yaml --data data/subset_4.yaml --hyp data/hyp.scratch.evolved.yaml --img-size 416 --device 0 --single-cls --workers 4 --project v5/train --name final_baseline_subset4_evolved_linear_SGD --linear-lr
+
+
