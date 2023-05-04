@@ -18,7 +18,7 @@ from utils.plots import plot_images, output_to_target, plot_study_txt
 from utils.torch_utils import select_device, time_synchronized, TracedModel
 
 
-def test(data,
+def test(opt, data,
          weights=None,
          batch_size=32,
          imgsz=640,
@@ -290,9 +290,8 @@ def test_main(opt):
     opt.save_json |= opt.data.endswith('coco.yaml')
     opt.data = check_file(opt.data)  # check file
     print(opt)
-
     if opt.task in ('train', 'val', 'test'):  # run normally
-        test(opt.data,
+        test(opt, opt.data,
              opt.weights,
              opt.batch_size,
              opt.img_size,
@@ -311,7 +310,7 @@ def test_main(opt):
 
     elif opt.task == 'speed':  # speed benchmarks
         for w in opt.weights:
-            test(opt.data, w, opt.batch_size, opt.img_size, 0.25, 0.45, save_json=False, plots=False, v5_metric=opt.v5_metric)
+            test(opt, opt.data, w, opt.batch_size, opt.img_size, 0.25, 0.45, save_json=False, plots=False, v5_metric=opt.v5_metric)
 
     elif opt.task == 'study':  # run over a range of settings and save/plot
         # python test.py --task study --data coco.yaml --iou 0.65 --weights yolov7.pt
@@ -321,7 +320,7 @@ def test_main(opt):
             y = []  # y axis
             for i in x:  # img-size
                 print(f'\nRunning {f} point {i}...')
-                r, _, t = test(opt.data, w, opt.batch_size, i, opt.conf_thres, opt.iou_thres, opt.save_json,
+                r, _, t = test(opt, opt.data, w, opt.batch_size, i, opt.conf_thres, opt.iou_thres, opt.save_json,
                                plots=False, v5_metric=opt.v5_metric)
                 y.append(r + t)  # results and times
             np.savetxt(f, y, fmt='%10.4g')  # save
@@ -329,7 +328,7 @@ def test_main(opt):
         plot_study_txt(x=x)  # plot
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(prog='test.py')
+    parser = argparse.ArgumentParser(prog='test_al.py')
     parser.add_argument('--weights', nargs='+', type=str, default='yolov7.pt', help='model.pt path(s)')
     parser.add_argument('--data', type=str, default='data/coco.yaml', help='*.data path')
     parser.add_argument('--batch-size', type=int, default=32, help='size of each image batch')
@@ -350,8 +349,10 @@ if __name__ == '__main__':
     parser.add_argument('--exist-ok', action='store_true', help='existing project/name ok, do not increment')
     parser.add_argument('--no-trace', action='store_true', help='don`t trace model')
     parser.add_argument('--v5-metric', action='store_true', help='assume maximum recall as 1.0 in AP calculation')
-    opt = parser.parse_args()
     
+    opt = parser.parse_args()
+
+
     #check_requirements()
 
     test_main(opt)

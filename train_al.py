@@ -21,7 +21,7 @@ from torch.nn.parallel import DistributedDataParallel as DDP
 from torch.utils.tensorboard import SummaryWriter
 from tqdm import tqdm
 
-import test  # import test.py to get mAP after each epoch
+#import test  # import test.py to get mAP after each epoch
 import test_al
 from models.experimental import attempt_load
 from models.yolo import Model
@@ -413,7 +413,7 @@ def train(hyp, opt, device, tb_writer=None):
             final_epoch = epoch + 1 == epochs
             if not opt.notest or final_epoch:  # Calculate mAP
                 wandb_logger.current_epoch = epoch + 1
-                results, maps, times = test.test(data_dict,
+                results, maps, times = test_al.test(opt, data_dict,
                                                  batch_size=batch_size * 2,
                                                  imgsz=imgsz_test,
                                                  model=ema.ema,
@@ -493,7 +493,7 @@ def train(hyp, opt, device, tb_writer=None):
         logger.info('%g epochs completed in %.3f hours.\n' % (epoch - start_epoch + 1, (time.time() - t0) / 3600))
         if opt.data.endswith('coco.yaml') and nc == 80:  # if COCO
             for m in (last, best) if best.exists() else (last):  # speed, mAP tests
-                results, _, _ = test.test(opt.data,
+                results, _, _ = test_al.test(opt, opt.data,
                                           batch_size=batch_size * 2,
                                           imgsz=imgsz_test,
                                           conf_thres=0.001,
@@ -736,13 +736,50 @@ if __name__ == '__main__':
     #------------------------------------
     opt = parser.parse_args()
 
-    train_main(opt)
-
+    #train_main(opt)
+    
+    opt.save_dir = increment_path(Path(opt.project) / opt.name, exist_ok=opt.exist_ok | opt.evolve)
     save_dir= Path(opt.save_dir)
 
     path_weight = save_dir / 'weights'
-    opt.weight = path_weight / 'best.pt'
+    #opt.weights = path_weight / 'best.pt'
+    opt.weights = "epoch_299.pt"
 
+    opt.save_json |= opt.data.endswith('coco.yaml')
+    opt.data = check_file(opt.data)  # check file
+    print(opt)
+    print(opt.data)
+    """
+    if opt.task in ('train', 'val', 'test'):  # run normally
+        test_al.test(opt.data,
+             opt.weights,
+             opt.batch_size,
+             opt.img_size,
+             opt.conf_thres,
+             opt.iou_thres,
+             opt.save_json,
+             opt.single_cls,
+             opt.augment,
+             opt.verbose,
+             save_txt=opt.save_txt | opt.save_hybrid,
+             save_hybrid=opt.save_hybrid,
+             save_conf=opt.save_conf,
+             trace=not opt.no_trace,
+             v5_metric=opt.v5_metric
+             )"""
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     test_al.test_main(opt) #erreur à ce niveau la 
 
     with open(opt.data) as f:
@@ -759,6 +796,8 @@ if __name__ == '__main__':
     
     add_remove_images(data_dict["train"], data_dict["test"], pool)
 
+    # Il faut supprimer les fichiers de cache
+    """
     train_main(opt)
     #------------------------------------
     # boucle.
@@ -774,7 +813,7 @@ if __name__ == '__main__':
         
         add_remove_images(data_dict["train"], data_dict["test"], liste_img)
 
-        i -= 0 
+        i -= 0 """
 
     # ajouter un paramètre au parser (nombre d'images totales à ajouter ou nombre de cycle)
     # a terme diviser le data set en train / test 
