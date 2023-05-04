@@ -732,18 +732,19 @@ if __name__ == '__main__':
     parser.add_argument('--no-trace', action='store_true', help='don`t trace model')
 
     #python train_al.py --img-size 416 --epochs 100 --hyp data/hyp.scratch.custom.yaml --cfg cfg/training/yolov7.yaml --data data/data.yaml --weights yolov7_training.pt --workers 4 --project v4/train --name baseline_sub_1_evolve --device 0 --single-cls --nosave --cache-images --task test --save-txt
+#python train_al.py --img-size 416 --epochs 1 --hyp data/hyp.scratch.custom.yaml --cfg cfg/training/yolov7.yaml --data data/data.yaml --weights yolov7_training.pt --workers 4 --project v4/train --name baseline_sub_1_evolve --device 0 --single-cls --nosave --cache-images --task test --save-txt
 
     #------------------------------------
     opt = parser.parse_args()
 
-    #train_main(opt)
+    train_main(opt)
     
     opt.save_dir = increment_path(Path(opt.project) / opt.name, exist_ok=opt.exist_ok | opt.evolve)
     save_dir= Path(opt.save_dir)
 
     path_weight = save_dir / 'weights'
-    #opt.weights = path_weight / 'best.pt'
-    opt.weights = "epoch_299.pt"
+    opt.weights = path_weight / 'best.pt'
+    #opt.weights = "epoch_299.pt"
 
     opt.save_json |= opt.data.endswith('coco.yaml')
     opt.data = check_file(opt.data)  # check file
