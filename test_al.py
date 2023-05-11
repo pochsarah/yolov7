@@ -294,7 +294,7 @@ def test_main(opt):
         test(opt, opt.data,
              opt.weights,
              opt.batch_size,
-             opt.img_size,
+             opt.imgt_size,
              opt.conf_thres,
              opt.iou_thres,
              opt.save_json,
@@ -310,7 +310,7 @@ def test_main(opt):
 
     elif opt.task == 'speed':  # speed benchmarks
         for w in opt.weights:
-            test(opt, opt.data, w, opt.batch_size, opt.img_size, 0.25, 0.45, save_json=False, plots=False, v5_metric=opt.v5_metric)
+            test(opt, opt.data, w, opt.batch_size, opt.imgt_size, 0.25, 0.45, save_json=False, plots=False, v5_metric=opt.v5_metric)
 
     elif opt.task == 'study':  # run over a range of settings and save/plot
         # python test.py --task study --data coco.yaml --iou 0.65 --weights yolov7.pt
@@ -332,7 +332,7 @@ if __name__ == '__main__':
     parser.add_argument('--weights', nargs='+', type=str, default='yolov7.pt', help='model.pt path(s)')
     parser.add_argument('--data', type=str, default='data/coco.yaml', help='*.data path')
     parser.add_argument('--batch-size', type=int, default=32, help='size of each image batch')
-    parser.add_argument('--img-size', type=int, default=640, help='inference size (pixels)')
+    parser.add_argument('--imgt-size', type=int, default=416, help='inference size (pixels)')
     parser.add_argument('--conf-thres', type=float, default=0.001, help='object confidence threshold')
     parser.add_argument('--iou-thres', type=float, default=0.65, help='IOU threshold for NMS')
     parser.add_argument('--task', default='val', help='train, val, test, speed or study')
