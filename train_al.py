@@ -737,49 +737,19 @@ if __name__ == '__main__':
     #------------------------------------
     opt = parser.parse_args()
 
-    train_main(opt)
+    #train_main(opt)
     
     opt.save_dir = increment_path(Path(opt.project) / opt.name, exist_ok=opt.exist_ok | opt.evolve)
     save_dir= Path(opt.save_dir)
 
     path_weight = save_dir / 'weights'
-    opt.weights = path_weight / 'best.pt'
-    #opt.weights = "epoch_299.pt"
+    #opt.weights = path_weight / 'best.pt'
+    opt.weights = "epoch_299.pt"
 
     opt.save_json |= opt.data.endswith('coco.yaml')
     opt.data = check_file(opt.data)  # check file
     print(opt)
     print(opt.data)
-    """
-    if opt.task in ('train', 'val', 'test'):  # run normally
-        test_al.test(opt.data,
-             opt.weights,
-             opt.batch_size,
-             opt.img_size,
-             opt.conf_thres,
-             opt.iou_thres,
-             opt.save_json,
-             opt.single_cls,
-             opt.augment,
-             opt.verbose,
-             save_txt=opt.save_txt | opt.save_hybrid,
-             save_hybrid=opt.save_hybrid,
-             save_conf=opt.save_conf,
-             trace=not opt.no_trace,
-             v5_metric=opt.v5_metric
-             )"""
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     
     test_al.test_main(opt) #erreur à ce niveau la 
 
