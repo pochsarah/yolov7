@@ -730,6 +730,8 @@ if __name__ == '__main__':
     parser.add_argument('--save-conf', action='store_true', help='save confidences in --save-txt labels')
     parser.add_argument('--save-json', action='store_true', help='save a cocoapi-compatible JSON results file')
     parser.add_argument('--no-trace', action='store_true', help='don`t trace model')
+    parser.add_argument('--imgt-size', type=int, default=416, help='inference size (pixels)')
+
 
     #python train_al.py --img-size 416 --epochs 100 --hyp data/hyp.scratch.custom.yaml --cfg cfg/training/yolov7.yaml --data data/data.yaml --weights yolov7_training.pt --workers 4 --project v4/train --name baseline_sub_1_evolve --device 0 --single-cls --nosave --cache-images --task test --save-txt
 #python train_al.py --img-size 416 --epochs 1 --hyp data/hyp.scratch.custom.yaml --cfg cfg/training/yolov7.yaml --data data/data.yaml --weights yolov7_training.pt --workers 4 --project v4/train --name baseline_sub_1_evolve --device 0 --single-cls --nosave --cache-images --task test --save-txt
