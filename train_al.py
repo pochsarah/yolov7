@@ -690,7 +690,7 @@ if __name__ == '__main__':
     parser.add_argument('--hyp', type=str, default='data/hyp.scratch.p5.yaml', help='hyperparameters path')
     parser.add_argument('--epochs', type=int, default=300)
     parser.add_argument('--batch-size', type=int, default=16, help='total batch size for all GPUs')
-    parser.add_argument('--img-size', nargs='+', type=int, default=[640, 640], help='[train, test] image sizes')
+    parser.add_argument('--img-size', nargs='+', type=int, default=[416, 416], help='[train, test] image sizes')
     parser.add_argument('--rect', action='store_true', help='rectangular training')
     parser.add_argument('--resume', nargs='?', const=True, default=False, help='resume most recent training')
     parser.add_argument('--nosave', action='store_true', help='only save final checkpoint')
@@ -740,15 +740,12 @@ if __name__ == '__main__':
     #train_main(opt)
     
     opt.save_dir = increment_path(Path(opt.project) / opt.name, exist_ok=opt.exist_ok | opt.evolve)
-    save_dir= Path(opt.save_dir)
+    #save_dir= Path(opt.save_dir)
 
-    path_weight = save_dir / 'weights'
+    #path_weight = save_dir / 'weights'
     #opt.weights = path_weight / 'best.pt'
-<<<<<<< HEAD
-    #opt.weights = "best.pt"
-=======
+
     #opt.weights = "epoch_299.pt"
->>>>>>> 5bdba46b45418f1ba036b8c94d4577709327f58f
 
     opt.save_json |= opt.data.endswith('coco.yaml')
     opt.data = check_file(opt.data)  # check file
