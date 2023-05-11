@@ -745,9 +745,9 @@ if __name__ == '__main__':
     path_weight = save_dir / 'weights'
     #opt.weights = path_weight / 'best.pt'
 <<<<<<< HEAD
-    opt.weights = "best.pt"
+    #opt.weights = "best.pt"
 =======
-    opt.weights = "epoch_299.pt"
+    #opt.weights = "epoch_299.pt"
 >>>>>>> 5bdba46b45418f1ba036b8c94d4577709327f58f
 
     opt.save_json |= opt.data.endswith('coco.yaml')
