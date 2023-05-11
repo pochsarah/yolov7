@@ -743,8 +743,8 @@ if __name__ == '__main__':
     save_dir= Path(opt.save_dir)
 
     path_weight = save_dir / 'weights'
-    opt.weights = path_weight / 'best.pt'
-    #opt.weights = "epoch_299.pt"
+    #opt.weights = path_weight / 'best.pt'
+    opt.weights = "best.pt"
 
     opt.save_json |= opt.data.endswith('coco.yaml')
     opt.data = check_file(opt.data)  # check file
