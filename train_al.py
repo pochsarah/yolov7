@@ -35,6 +35,7 @@ from utils.loss import ComputeLoss, ComputeLossOTA
 from utils.plots import plot_images, plot_labels, plot_results, plot_evolution
 from utils.torch_utils import ModelEMA, select_device, intersect_dicts, torch_distributed_zero_first, is_parallel
 from utils.wandb_logging.wandb_utils import WandbLogger, check_wandb_resume
+import draft
 
 logger = logging.getLogger(__name__)
 
@@ -667,21 +668,6 @@ def train_main(opt):
         print(f'Hyperparameter evolution complete. Best results saved as: {yaml_file}\n'
               f'Command to train a new model with these hyperparameters: $ python train.py --hyp {yaml_file}')
 
-def add_remove_images(train_txt, test_txt, liste_images):
-    with open(train_txt, "a+") as f:
-        for it in liste_images: 
-            f.write("\n")
-            f.write(it)
-
-    with open(test_txt, "r") as fp:
-        lines = fp.readlines()
-
-    with open(test_txt, "w") as fp:
-        for line in lines:
-            if line.strip("\n") != liste_images:
-                fp.write(line)
-
-
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--weights', type=str, default='yolo7.pt', help='initial weights path')
@@ -734,27 +720,29 @@ if __name__ == '__main__':
 
 
     #python train_al.py --img-size 416 --epochs 100 --hyp data/hyp.scratch.custom.yaml --cfg cfg/training/yolov7.yaml --data data/data.yaml --weights yolov7_training.pt --workers 4 --project v4/train --name baseline_sub_1_evolve --device 0 --single-cls --nosave --cache-images --task test --save-txt
-#python train_al.py --img-size 416 --epochs 1 --hyp data/hyp.scratch.custom.yaml --cfg cfg/training/yolov7.yaml --data data/data.yaml --weights yolov7_training.pt --workers 4 --project v4/train --name baseline_sub_1_evolve --device 0 --single-cls --nosave --cache-images --task test --save-txt
+    #python train_al.py --img-size 416 --epochs 1 --hyp data/hyp.scratch.custom.yaml --cfg cfg/training/yolov7.yaml --data data/data.yaml --weights yolov7_training.pt --workers 4 --project v4/train --name baseline_sub_1_evolve --device 0 --single-cls --nosave --cache-images --task test --save-txt
 
     #------------------------------------
-    opt = parser.parse_args()
+    opt = parser.parse_args() # Récupère les données en paramètres
 
-    #train_main(opt)
-    
+    train_main(opt) #Entraine le modèle
+
+    # Récupère le nom du répertoire où les résultats sont stockés
     opt.save_dir = increment_path(Path(opt.project) / opt.name, exist_ok=opt.exist_ok | opt.evolve)
-    #save_dir= Path(opt.save_dir)
+    save_dir= Path(opt.save_dir)
 
-    #path_weight = save_dir / 'weights'
-    #opt.weights = path_weight / 'best.pt'
+    path_weight = save_dir / 'weights'
+    opt.weights = path_weight / 'best.pt' # Récupère le meilleur poids 
 
-    #opt.weights = "epoch_299.pt"
+    test_al.test_main(opt) # Prédit
 
-    opt.save_json |= opt.data.endswith('coco.yaml')
-    opt.data = check_file(opt.data)  # check file
-    print(opt)
-    print(opt.data)
+
+
+    #changer le chemin des poids 
+    #changer le nom du projet avant le nouvel entrainement. 
+
+
     
-    test_al.test_main(opt) #erreur à ce niveau la 
 
     with open(opt.data) as f:
         data_dict = yaml.load(f, Loader=yaml.SafeLoader)
@@ -768,26 +756,10 @@ if __name__ == '__main__':
         pool = []
         return pool
     
-    add_remove_images(data_dict["train"], data_dict["test"], pool)
+    draft.add_remove_images(data_dict["train"], data_dict["test"], pool)
 
     # Il faut supprimer les fichiers de cache
-    """
-    train_main(opt)
-    #------------------------------------
-    # boucle.
-    i = 3  
-    
-    while i != 0: #ajouter un critère de fin également si on a un palier, etc 
-        train_main(opt)
-
-        # changer le chemin poids (func ou immuable)
-        test_al.test_main(opt)
-
-        liste_img = select_img(data_dict["test"], 3)
-        
-        add_remove_images(data_dict["train"], data_dict["test"], liste_img)
-
-        i -= 0 """
+ 
 
     # ajouter un paramètre au parser (nombre d'images totales à ajouter ou nombre de cycle)
     # a terme diviser le data set en train / test 

@@ -1,6 +1,7 @@
 import os
 import numpy as np
 from collections import Counter
+import yaml
 
 def getListe(path):
     ###
@@ -86,13 +87,48 @@ def average(liste, budget):
         return [it[0] for it in pool]
 
 
+def add_remove_images(train_txt: str, test_txt: str, liste_images: list): 
+    """
+    Remove the images from the test text file to the train text file
 
+    Args: 
+        train_txt: Path of the text file containing the path of the training images
+        test_txt: Path of the text file containing the path of the test images
+        liste_images: List of the images which go from the test dataset to the train dataset
+    
+    Return: 
+        None
+    """
+    with open(train_txt, "a+") as f:
+        for it in liste_images: 
+            f.write(it+"\n")
 
+    with open(test_txt, 'r') as f:
+        lines = f.read().splitlines()
+        with open(test_txt, 'w') as f: 
+            for l in lines:
+                if l not in liste_images :
+                    f.write(l+"\n")
+
+def remove_cache(path):  
+    """
+    Remove the cache files created for the previous training. 
+
+    Args: Path of the data .yaml file (opt.data)
+
+    Return: None 
+    """  
+    with open(path) as f:
+        data_dict = yaml.load(f, Loader=yaml.SafeLoader)
+        liste = [data_dict["train"], data_dict["val"], data_dict["test"]]
+        liste = [it.replace("txt", "cache") for it in liste]
+        for it in liste :
+            if os.path.exists(it):
+                os.remove(it)
 
 if __name__ == '__main__':
 
-    test = getListe("v5/test/final_baseline_subset1_evolved_linear_SGD2/labels/")
-    liste = average(test, 5)
-    print(liste)
-    liste = sum(test, 5)
-    print(liste)
+
+
+    #add_remove_images('/mnt/c/Users/sarah/Documents/test_al/train.txt', '/mnt/c/Users/sarah/Documents/test_al/test.txt', ["5", "6"])
+    remove_cache("/mnt/c/Users/sarah/Documents/yolov7/data/data.yaml")
