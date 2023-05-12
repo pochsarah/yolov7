@@ -717,10 +717,11 @@ if __name__ == '__main__':
     parser.add_argument('--save-json', action='store_true', help='save a cocoapi-compatible JSON results file')
     parser.add_argument('--no-trace', action='store_true', help='don`t trace model')
     parser.add_argument('--imgt-size', type=int, default=416, help='inference size (pixels)')
+    parser.add_argument('--project-test', default='runs/test', help='save to project/name')
 
 
     #python train_al.py --img-size 416 --epochs 100 --hyp data/hyp.scratch.custom.yaml --cfg cfg/training/yolov7.yaml --data data/data.yaml --weights yolov7_training.pt --workers 4 --project v4/train --name baseline_sub_1_evolve --device 0 --single-cls --nosave --cache-images --task test --save-txt
-    #python train_al.py --img-size 416 --epochs 1 --hyp data/hyp.scratch.custom.yaml --cfg cfg/training/yolov7.yaml --data data/data.yaml --weights yolov7_training.pt --workers 4 --project v4/train --name baseline_sub_1_evolve --device 0 --single-cls --nosave --cache-images --task test --save-txt
+    #python train_al.py --img-size 416 --epochs 1 --hyp data/hyp.scratch.custom.yaml --cfg cfg/training/yolov7.yaml --data data/subset_test_al.yaml --weights yolov7_training.pt --workers 4 --project v7/train --project-test v7/test --name al_test --device 0 --single-cls --nosave --cache-images --task test --save-txt 
 
     #------------------------------------
     opt = parser.parse_args() # Récupère les données en paramètres
@@ -732,39 +733,28 @@ if __name__ == '__main__':
     save_dir= Path(opt.save_dir)
 
     path_weight = save_dir / 'weights'
-    opt.weights = path_weight / 'best.pt' # Récupère le meilleur poids 
+    opt.weights = path_weight / 'best.pt' # Récupère le meilleur poids
 
     test_al.test_main(opt) # Prédit
 
+    save_dir_test = Path(increment_path(Path(opt.project_test) / opt.name, exist_ok=opt.exist_ok))  # increment run
+    save_dir_test = save_dir_test / 'labels'
 
-
-    #changer le chemin des poids 
-    #changer le nom du projet avant le nouvel entrainement. 
-
-
-    
-
+    # selectionne les images 
     with open(opt.data) as f:
         data_dict = yaml.load(f, Loader=yaml.SafeLoader)
 
-    #choix des images à prélever = fonction adaptée. 
     with open(data_dict["test"], 'r') as f:
         liste  = f.read().splitlines()
-    pool = random.choices(liste, k=3) 
 
-    def select_img(test_txt, budget) :
-        pool = []
-        return pool
+    pool = draft.random_choice(liste, 5)
     
     draft.add_remove_images(data_dict["train"], data_dict["test"], pool)
 
-    # Il faut supprimer les fichiers de cache
+    opt.name = opt.name + "_2" # Change nom du projet
+
+    train_main(opt)
  
-
-    # ajouter un paramètre au parser (nombre d'images totales à ajouter ou nombre de cycle)
-    # a terme diviser le data set en train / test 
-    # dans le train = labelled, unlabelled (qui servent de test ?)
-
 
 
 

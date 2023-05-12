@@ -2,6 +2,7 @@ import os
 import numpy as np
 from collections import Counter
 import yaml
+import random
 
 def getListe(path):
     ###
@@ -125,6 +126,9 @@ def remove_cache(path):
         for it in liste :
             if os.path.exists(it):
                 os.remove(it)
+
+def random_choice(liste, budget): 
+    return random.choices(liste, k=3) 
 
 if __name__ == '__main__':
 
