@@ -706,7 +706,7 @@ if __name__ == '__main__':
     parser.add_argument('--artifact_alias', type=str, default="latest", help='version of dataset artifact to be used')
     parser.add_argument('--freeze', nargs='+', type=int, default=[0], help='Freeze layers: backbone of yolov7=50, first3=0 1 2')
     parser.add_argument('--v5-metric', action='store_true', help='assume maximum recall as 1.0 in AP calculation')
-    parser.add_argument('--conf-thres', type=float, default=0.001, help='object confidence threshold')
+    """parser.add_argument('--conf-thres', type=float, default=0.001, help='object confidence threshold')
     parser.add_argument('--iou-thres', type=float, default=0.65, help='IOU threshold for NMS')
     parser.add_argument('--task', default='val', help='train, val, test, speed or study')
     parser.add_argument('--augment', action='store_true', help='augmented inference')
@@ -717,7 +717,7 @@ if __name__ == '__main__':
     parser.add_argument('--save-json', action='store_true', help='save a cocoapi-compatible JSON results file')
     parser.add_argument('--no-trace', action='store_true', help='don`t trace model')
     parser.add_argument('--imgt-size', type=int, default=416, help='inference size (pixels)')
-    parser.add_argument('--project-test', default='runs/test', help='save to project/name')
+    parser.add_argument('--project-test', default='runs/test', help='save to project/name')"""
 
 
     #python train_al.py --img-size 416 --epochs 100 --hyp data/hyp.scratch.custom.yaml --cfg cfg/training/yolov7.yaml --data data/data.yaml --weights yolov7_training.pt --workers 4 --project v4/train --name baseline_sub_1_evolve --device 0 --single-cls --nosave --cache-images --task test --save-txt
