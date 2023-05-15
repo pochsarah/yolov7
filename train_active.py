@@ -705,13 +705,16 @@ if __name__ == '__main__':
     #    check_git_status()
     #    check_requirements()
 
+    hyperparam = opt.hyp 
+
     main_training(opt)
 
     #opt.save_dir = increment_path(Path(opt.project) / opt.name, exist_ok=opt.exist_ok | opt.evolve)
     save_dir= Path(opt.save_dir)
 
     path_weight = save_dir / 'weights'
-    opt.weights = path_weight / 'best.pt' # Récupère le meilleur poids
+    path_weight = path_weight / 'best.pt' # Récupère le meilleur poids
+    opt.weights = str(path_weight)
     print(opt.weights)
 
     opt.world_size = int(os.environ['WORLD_SIZE']) if 'WORLD_SIZE' in os.environ else 1
@@ -722,5 +725,7 @@ if __name__ == '__main__':
     #    check_requirements()
 
     print(opt)
+
+    opt.hyp = hyperparam
 
     main_training(opt) 
