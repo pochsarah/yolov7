@@ -726,7 +726,7 @@ if __name__ == '__main__':
     #    check_git_status()
     #    check_requirements()
 
-    draft.remove(path_data)
+    draft.remove_cache(path_data)
     opt.name = opt.name + "_2"
     opt.hyp = hyperparam
     print(opt)
