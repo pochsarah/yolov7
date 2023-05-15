@@ -727,7 +727,7 @@ if __name__ == '__main__':
     opt = parser.parse_args() # Récupère les données en paramètres
 
     train_main(opt) #Entraine le modèle
-    
+    """
     # Récupère le nom du répertoire où les résultats sont stockés
     opt.save_dir = increment_path(Path(opt.project) / opt.name, exist_ok=opt.exist_ok | opt.evolve)
     save_dir= Path(opt.save_dir)
@@ -753,7 +753,7 @@ if __name__ == '__main__':
 
     opt.name = opt.name + "_2" # Change nom du projet
 
-    train_main(opt)
+    train_main(opt)"""
     
 
 
