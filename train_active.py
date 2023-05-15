@@ -727,8 +727,7 @@ if __name__ == '__main__':
     #    check_requirements()
 
     draft.remove(path_data)
-    print(opt)
-
+    opt.name = opt.name + "_2"
     opt.hyp = hyperparam
-
+    print(opt)
     main_training(opt) 
