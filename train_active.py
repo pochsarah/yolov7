@@ -34,6 +34,7 @@ from utils.loss import ComputeLoss, ComputeLossOTA
 from utils.plots import plot_images, plot_labels, plot_results, plot_evolution
 from utils.torch_utils import ModelEMA, select_device, intersect_dicts, torch_distributed_zero_first, is_parallel
 from utils.wandb_logging.wandb_utils import WandbLogger, check_wandb_resume
+import draft
 
 logger = logging.getLogger(__name__)
 
@@ -706,6 +707,7 @@ if __name__ == '__main__':
     #    check_requirements()
 
     hyperparam = opt.hyp 
+    path_data = opt.data
 
     main_training(opt)
 
@@ -724,6 +726,7 @@ if __name__ == '__main__':
     #    check_git_status()
     #    check_requirements()
 
+    draft.remove(path_data)
     print(opt)
 
     opt.hyp = hyperparam
