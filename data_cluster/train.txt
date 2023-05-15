@@ -63,3 +63,13 @@
 /mnt/c/Users/sarah/Documents/yolo_data/non_empty/200521_133_21621_9.jpg
 /mnt/c/Users/sarah/Documents/yolo_data/non_empty/200520_133_7552_38.jpg
 /mnt/c/Users/sarah/Documents/yolo_data/non_empty/200521_133_21621_3.jpg
+/mnt/c/Users/sarah/Documents/yolo_data/non_empty/200521_133_21620_10.jpg
+/mnt/c/Users/sarah/Documents/yolo_data/non_empty/200520_133_7552_12.jpg
+/mnt/c/Users/sarah/Documents/yolo_data/non_empty/200521_133_21619_0.jpg
+/mnt/c/Users/sarah/Documents/yolo_data/non_empty/200521_133_21620_9.jpg
+/mnt/c/Users/sarah/Documents/yolo_data/non_empty/200520_133_7552_28.jpg
+/mnt/c/Users/sarah/Documents/yolo_data/non_empty/200520_133_7552_18.jpg
+/mnt/c/Users/sarah/Documents/yolo_data/non_empty/200520_133_7552_29.jpg
+/mnt/c/Users/sarah/Documents/yolo_data/non_empty/200520_133_7552_35.jpg
+/mnt/c/Users/sarah/Documents/yolo_data/non_empty/200520_133_7552_29.jpg
+/mnt/c/Users/sarah/Documents/yolo_data/non_empty/200520_133_7552_33.jpg

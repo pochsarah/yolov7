@@ -127,12 +127,29 @@ def remove_cache(path):
             if os.path.exists(it):
                 os.remove(it)
 
-def random_choice(liste, budget): 
-    return random.choices(liste, k=3) 
+def random_choice(test_txt, budget):
+    with open(test_txt, 'r') as f:
+        liste = f.read().splitlines()
+    return random.choices(liste, k=budget) 
+
+def move_pool_random(path, budget):
+    
+    with open(path) as f:
+        data_dict = yaml.load(f, Loader=yaml.SafeLoader)
+        liste = [data_dict['train'], data_dict['test']]
+    
+    pool = random_choice(liste[1], budget)
+
+    add_remove_images(liste[0], liste[1], pool)
 
 if __name__ == '__main__':
 
 
+    path = "/mnt/c/Users/sarah/Documents/yolov7/data/data.yaml"
+
+    move_pool_random(path, 5)
+
+
 
     #add_remove_images('/mnt/c/Users/sarah/Documents/test_al/train.txt', '/mnt/c/Users/sarah/Documents/test_al/test.txt', ["5", "6"])
-    remove_cache("/mnt/c/Users/sarah/Documents/yolov7/data/data.yaml")
+    #remove_cache("/mnt/c/Users/sarah/Documents/yolov7/data/data.yaml")
