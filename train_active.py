@@ -701,6 +701,12 @@ if __name__ == '__main__':
     hyperparam = opt.hyp 
     path_data = opt.data
 
+i = 0 #nb of epoch
+nb_loop = 1
+while (i != 300): #ajouter condition de unlabelled vide
+    i += opt.epochs
+    nb_loop += 1
+
     # Set DDP variables
     opt.world_size = int(os.environ['WORLD_SIZE']) if 'WORLD_SIZE' in os.environ else 1
     opt.global_rank = int(os.environ['RANK']) if 'RANK' in os.environ else -1
@@ -709,11 +715,6 @@ if __name__ == '__main__':
     #    check_git_status()
     #    check_requirements()
 
-i = 0 #nb of epoch
-nb_loop = 1
-while (i != 300): #ajouter condition de unlabelled vide
-    i += opt.epochs
-    nb_loop += 1
     main_training(opt)
 
     #opt.save_dir = increment_path(Path(opt.project) / opt.name, exist_ok=opt.exist_ok | opt.evolve)
