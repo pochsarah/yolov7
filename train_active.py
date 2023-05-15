@@ -707,9 +707,11 @@ if __name__ == '__main__':
 
     main_training(opt)
 
-    opt.save_dir = increment_path(Path(opt.project) / opt.name, exist_ok=opt.exist_ok | opt.evolve)
+    #opt.save_dir = increment_path(Path(opt.project) / opt.name, exist_ok=opt.exist_ok | opt.evolve)
     save_dir= Path(opt.save_dir)
 
     path_weight = save_dir / 'weights'
     opt.weights = path_weight / 'best.pt' # Récupère le meilleur poids
-    print(opt.weights) 
+    print(opt.weights)
+
+    main_training(opt) 
