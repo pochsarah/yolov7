@@ -90,7 +90,7 @@ head:
    
    [-1, 1, Conv, [128, 1, 1]],
    [-1, 1, nn.Upsample, [None, 2, 'nearest']],
-   #[24, 1, Conv, [128, 1, 1]], # route backbone P3
+   [24, 1, Conv, [128, 1, 1]], # route backbone P3
    [[-1, -2], 1, Concat, [1]],
    
    [-1, 1, Conv, [128, 1, 1]],
@@ -136,5 +136,5 @@ head:
    [88, 1, RepConv, [512, 3, 1]],
    [101, 1, RepConv, [1024, 3, 1]],
 
-   [[102,103,104], 1, IDetect, [nc, anchors]],   # Detect(P3, P4, P5)
+   [[103,104], 1, IDetect, [nc, anchors]],   # Detect(P3, P4, P5)
   ]

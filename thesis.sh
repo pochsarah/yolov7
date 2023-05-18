@@ -28,4 +28,6 @@ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/share/castor/home/e1800093/.conda/envs/
 #python train_al.py --img-size 416 --epochs 12 --hyp data/hyp.scratch.evolved.yaml --cfg cfg/training/yolov7.yaml --data data/subset_test_al.yaml --weights yolov7_training.pt --workers 4 --project v7/train  --name al_v0 --device 0 --single-cls 
 #--project-test v7/test --task test --save-txt
 
-python train_active.py --img-size 416 --epochs 15 --hyp data/hyp.scratch.evolved.yaml --cfg cfg/training/yolov7.yaml --data data/subset_test_al.yaml --weights yolov7_training.pt --workers 4 --project v8/train --name al --device 0 --single-cls
+#python train_active.py --img-size 416 --epochs 15 --hyp data/hyp.scratch.evolved.yaml --cfg cfg/training/yolov7.yaml --data data/subset_test_al.yaml --weights yolov7_training.pt --workers 4 --project v8/train --name al --device 0 --single-cls
+
+python -u train.py --weights yolov7_training.pt --cfg cfg/training/yolov7_custom.yaml --data data/subset_1.yaml --hyp data/hyp.scratch.evolved.yaml --img-size 416 --device 0 --single-cls --workers 4 --project v9_layer --name test_layers --linear-lr
