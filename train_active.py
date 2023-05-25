@@ -715,12 +715,10 @@ while (i != 300): #ajouter condition de unlabelled vide
     
 
     main_training(opt)
-    if nb_loop == 2:
-        opt.resume = True
 
     #opt.save_dir = increment_path(Path(opt.project) / opt.name, exist_ok=opt.exist_ok | opt.evolve)
     save_dir= Path(opt.save_dir)
-    """
+    
     path_weight = save_dir / 'weights'
     path_weight = path_weight / 'best.pt' # Récupère le meilleur poids
     opt.weights = str(path_weight)
@@ -733,4 +731,4 @@ while (i != 300): #ajouter condition de unlabelled vide
     draft.remove_cache(path_data)
     draft.move_pool_random(path_data, 5)
     opt.name = opt.name + "_"+ str(nb_loop)
-    opt.hyp = hyperparam"""
+    opt.hyp = hyperparam
