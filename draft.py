@@ -27,7 +27,7 @@ def add_remove_images(path: str, liste_images: list):
 
     with open(liste[1], 'r') as f:
         lines = f.read().splitlines()
-        with open(test_txt, 'w') as f: 
+        with open(liste[1], 'w') as f: 
             for l in lines:
                 if l not in liste_images :
                     f.write(l+"\n")
