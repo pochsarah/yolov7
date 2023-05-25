@@ -237,27 +237,25 @@ if __name__ == '__main__':
     
     path = "./v5/test/final_baseline_subset1_custom_linear_SGD6/labels/"
 
-    #dict_img = all_scores(path)
-    #print(max_scores(dict_img))
-    
-
-    #a vérifier 
-    
     path_data = "./data/data.yaml"
-    #prendre en compte le fait que l'on fonctionne par paquet..
+
     chunks = chunk_unlabelled(path_data, 5)
     
-    #déterminer chunk à déplacer : 
-        #random
-
-
     
-    print(chunks)
-    print(img)
-    print(i)
+    file = find_image("sum", path)
 
+    print(file)
+    
+    file = file.replace("txt", "jpg")
+    print(file)   
+    
 
-
+    for j in range(len(chunks)):
+        for i in range(len(chunks[j])):
+            if "200521_133_21620_3.jpg" in chunks[j][i]:
+                print(j)
+                break
+    
     def test(path_data, path, method):
         if method == "random" : 
             img = random_choice(path_data, 1)
@@ -273,12 +271,6 @@ if __name__ == '__main__':
         else:
             return "change" 
 
-
-    """
-    print(test(path_data, path, "sum"))
-    print(test(path_data, path, "random"))
-    print(test(path_data, path, "average"))
-    print(test(path_data, path, "maximum"))"""
 
     """
         fonction qui : 

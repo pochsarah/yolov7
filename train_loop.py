@@ -720,7 +720,7 @@ if __name__ == '__main__':
     
     i = 0 #nb of epoch
     nb_loop = 1
-    while (i != 300 and nb_loop < 2): #ajouter condition de unlabelled vide
+    while (i != 300): #ajouter condition de unlabelled vide
         i += opt.epochs
         nb_loop += 1
 
@@ -735,13 +735,8 @@ if __name__ == '__main__':
         # changement du chemin des poids pour utiliser les meilleurs poids
         save_dir= Path(opt.save_dir)
 
-        path_weight = save_dir / 'weights'
-        path_weight = path_weight / 'best.pt' # Récupère le meilleur poids
+        path_weight = save_dir / 'weights' / 'best.pt' # Récupère le meilleur poids
         opt.weights = str(path_weight)
-
-        opt.world_size = int(os.environ['WORLD_SIZE']) if 'WORLD_SIZE' in os.environ else 1
-        opt.global_rank = int(os.environ['RANK']) if 'RANK' in os.environ else -1
-        set_logging(opt.global_rank)
 
         projet_test = opt.project
         projet_test = projet_test.replace("train", "test")
@@ -753,17 +748,9 @@ if __name__ == '__main__':
         draft.remove_cache(path_data)
 
         draft.random_chunk(path_data, chunks)
-        
-        """
-        fonction qui : 
-            si choix random : choisit une image de manière aléatoire -> déplace tout son paquet 
-            si choix non randome : 
-                récupère les labels des images testées
-                calcule le score pour chaque detection 
-                aggrege selon max ,avg, sum pour chaque image 
-                fait la somme par paquet
-                deplace le paquet avec la plus grosse valeur """      
 
-        #draft.move_pool_random(path_data, 5)
+        #penser a enlever le chunk 
+        #chunks.remove(chunks[j])
+
         opt.name = opt.name + "_"+ str(nb_loop)
         opt.hyp = hyperparam 
