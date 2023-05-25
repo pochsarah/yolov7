@@ -714,34 +714,54 @@ if __name__ == '__main__':
     hyperparam = opt.hyp 
     path_data = opt.data
 
-i = 0 #nb of epoch
-nb_loop = 1
-while (i != 300 and nb_loop < 2): #ajouter condition de unlabelled vide
-    i += opt.epochs
-    nb_loop += 1
+    #\\TODO Séparer le pool unlabelled en paquets que l'on conserve jusqu'à la fin. 
+    chunks = draft.chunk_unlabelled(path, 10)
+    print(chunks)
+    """
+    i = 0 #nb of epoch
+    nb_loop = 1
+    while (i != 300 and nb_loop < 2): #ajouter condition de unlabelled vide
+        i += opt.epochs
+        nb_loop += 1
 
-    # Set DDP variables
-    opt.world_size = int(os.environ['WORLD_SIZE']) if 'WORLD_SIZE' in os.environ else 1
-    opt.global_rank = int(os.environ['RANK']) if 'RANK' in os.environ else -1
-    set_logging(opt.global_rank)
-    
-    main_training(opt)
+        # Set DDP variables
+        opt.world_size = int(os.environ['WORLD_SIZE']) if 'WORLD_SIZE' in os.environ else 1
+        opt.global_rank = int(os.environ['RANK']) if 'RANK' in os.environ else -1
+        set_logging(opt.global_rank)
+        
+        #entrainement 
+        main_training(opt)
 
-    #opt.save_dir = increment_path(Path(opt.project) / opt.name, exist_ok=opt.exist_ok | opt.evolve)
-    save_dir= Path(opt.save_dir)
+        # changement du chemin des poids pour utiliser les meilleurs poids
+        save_dir= Path(opt.save_dir)
 
-    path_weight = save_dir / 'weights'
-    path_weight = path_weight / 'best.pt' # Récupère le meilleur poids
-    opt.weights = str(path_weight)
-    print(opt.weights)
+        path_weight = save_dir / 'weights'
+        path_weight = path_weight / 'best.pt' # Récupère le meilleur poids
+        opt.weights = str(path_weight)
+        print(opt.weights)
 
-    opt.world_size = int(os.environ['WORLD_SIZE']) if 'WORLD_SIZE' in os.environ else 1
-    opt.global_rank = int(os.environ['RANK']) if 'RANK' in os.environ else -1
-    set_logging(opt.global_rank)
+        opt.world_size = int(os.environ['WORLD_SIZE']) if 'WORLD_SIZE' in os.environ else 1
+        opt.global_rank = int(os.environ['RANK']) if 'RANK' in os.environ else -1
+        set_logging(opt.global_rank)
 
-    test_loop.test_main(opt)
+        #TODO// modifier nom du projet pour le test 
 
-    #draft.remove_cache(path_data)
-    #draft.move_pool_random(path_data, 5)
-    opt.name = opt.name + "_"+ str(nb_loop)
-    opt.hyp = hyperparam
+        # prediction sur le test dataset (unlabelled)
+        test_loop.test_main(opt)
+
+        # suppression des fichiers de cache 
+        draft.remove_cache(path_data)
+
+        fonction qui : 
+            si choix random : choisit une image de manière aléatoire -> déplace tout son paquet 
+            si choix non randome : 
+                récupère les labels des images testées
+                calcule le score pour chaque detection 
+                aggrege selon max ,avg, sum pour chaque image 
+                fait la somme par paquet
+                deplace le paquet avec la plus grosse valeur
+        
+
+        #draft.move_pool_random(path_data, 5)
+        opt.name = opt.name + "_"+ str(nb_loop)
+        opt.hyp = hyperparam """

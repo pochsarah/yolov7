@@ -44,17 +44,21 @@ def remove_cache(path: str):
             if os.path.exists(it):
                 os.remove(it)
 
-def random_choice(test_txt: str, budget: int):
+def random_choice(path: str, budget: int):
     """
     Select randomly a define number of lines from a text file 
 
     Args : 
-        text_txt : path of the text file containing the path of the test images
-        budget : number of line to be randomly selected
+        path : Path of data .yaml file (opt.data)
+        budget : Number of line to be randomly selected
     
     Return : List of the selected lines
     """
-    with open(test_txt, 'r') as f:
+    with open(path) as f:
+        data_dict = yaml.load(f, Loader=yaml.SafeLoader)
+        liste = [data_dict['train'], data_dict['test']]
+    
+    with open(liste[1], 'r') as f:
         liste = f.read().splitlines()
     return random.choices(liste, k=budget) 
 
@@ -72,7 +76,7 @@ def move_pool_random(path, budget):
         data_dict = yaml.load(f, Loader=yaml.SafeLoader)
         liste = [data_dict['train'], data_dict['test']]
     
-    pool = random_choice(liste[1], budget)
+    pool = random_choice(path, budget)
 
     add_remove_images(liste[0], liste[1], pool)
 
@@ -202,20 +206,80 @@ def find_image(method: str, path: str):
         print("choose bewteen")
     return max(dict_sc, key=dict_sc.get)
     
+def chunk_unlabelled(path, budget):
+    with open(path_data) as f:
+        data_dict = yaml.load(f, Loader=yaml.SafeLoader)
+        liste = [data_dict['train'], data_dict['val'], data_dict['test']]
+
+    with open(liste[2], 'r') as f:
+        liste = f.read().splitlines()
     
+    random.seed(0)
+    random.shuffle(liste)  
+    
+    return [liste[i*budget:(i+1)*budget] for i in range((len(liste)+budget-1)//budget)]
  
 if __name__ == '__main__':
-
-
+    
     path = "./v5/test/final_baseline_subset1_custom_linear_SGD6/labels/"
 
     #dict_img = all_scores(path)
     #print(max_scores(dict_img))
     
-    print(find_image("sum", path))
-    print(find_image("average", path))
-    print(find_image("maximum", path))
+
     #a vérifier 
     
-    #prendre en compte le fait que l'on fonctionne par paquet...
+    path_data = "./data/data.yaml"
+    #prendre en compte le fait que l'on fonctionne par paquet..
+    chunks = chunk_unlabelled(path_data, 5)
+    
+    #déterminer chunk à déplacer : 
+        #random
+    img = random_choice(path_data, 1)
+    
+    to_remove = 0
+    for i in range(len(chunks)):
+        if img[0] in chunks[i]:
+            to_remove = i
+    
+    print(chunks)
+    print(img)
+    print(i)
+
+
+
+    def test(path_data, path, method):
+        if method == "random" : 
+            img = random_choice(path_data, 1)
+            return img
+        elif method in ["sum", "average", "maximum"]:
+            if method == "sum": 
+                file = find_image("sum", path)
+            elif method == "average":
+                file = find_image("average", path)
+            elif method == "maximum":
+                file = find_image("maximum", path)
+            return file
+        else:
+            return "change" 
+
+
+    """
+    print(test(path_data, path, "sum"))
+    print(test(path_data, path, "random"))
+    print(test(path_data, path, "average"))
+    print(test(path_data, path, "maximum"))"""
+
+    """
+        fonction qui : 
+            si choix random : choisit une image de manière aléatoire -> déplace tout son paquet 
+            si choix non randome : 
+                récupère les labels des images testées
+                calcule le score pour chaque detection 
+                aggrege selon max ,avg, sum pour chaque image 
+                fait la somme par paquet
+                deplace le paquet avec la plus grosse valeur
+
+        retourne un nom d'image 
+        """
     
