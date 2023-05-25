@@ -291,11 +291,16 @@ def test(opt, data,
         maps[c] = ap[i]
     return (mp, mr, map50, map, *(loss.cpu() / len(dataloader)).tolist()), maps, t
 
-def test_main(opt):
+def test_main(opt, project_test=None):
     opt.save_json |= opt.data.endswith('coco.yaml')
     opt.data = check_file(opt.data)  # check file
     print(opt)
     #check_requirements()
+
+    if project_test==None:
+        project_test = opt.project
+    else: 
+        project_test = project_test
 
     if opt.task in ('train', 'val', 'test'):  # run normally
         test(opt, data=opt.data,
@@ -312,7 +317,7 @@ def test_main(opt):
              save_txt=opt.save_txt | opt.save_hybrid,
              save_hybrid=opt.save_hybrid,
              save_conf=opt.save_conf,
-             project=opt.project, 
+             project=project_test, 
              name=opt.name, 
              exist_ok=opt.exist_ok, 
              trace=not opt.no_trace,

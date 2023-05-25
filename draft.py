@@ -5,7 +5,7 @@ import yaml
 import random
 
 #---------------------------------------------------------------------------
-def add_remove_images(train_txt: str, test_txt: str, liste_images: list): 
+def add_remove_images(path: str, liste_images: list): 
     """
     Remove the images from the test text file to the train text file
 
@@ -17,11 +17,15 @@ def add_remove_images(train_txt: str, test_txt: str, liste_images: list):
     Return: 
         None
     """
-    with open(train_txt, "a+") as f:
+    with open(path) as f:
+        data_dict = yaml.load(f, Loader=yaml.SafeLoader)
+        liste = [data_dict['train'], data_dict['test']]
+
+    with open(liste[0], "a+") as f:
         for it in liste_images: 
             f.write(it+"\n")
 
-    with open(test_txt, 'r') as f:
+    with open(liste[1], 'r') as f:
         lines = f.read().splitlines()
         with open(test_txt, 'w') as f: 
             for l in lines:
@@ -219,6 +223,16 @@ def chunk_unlabelled(path, budget):
     
     return [liste[i*budget:(i+1)*budget] for i in range((len(liste)+budget-1)//budget)]
  
+def random_chunk(path_data, chunks):
+    img = random_choice(path_data, 1)
+    
+    to_remove = 0
+    for i in range(len(chunks)):
+        if img[0] in chunks[i]:
+            to_remove = i
+    
+    add_remove_images(path_data, chunks[to_remove])
+
 if __name__ == '__main__':
     
     path = "./v5/test/final_baseline_subset1_custom_linear_SGD6/labels/"
@@ -235,12 +249,8 @@ if __name__ == '__main__':
     
     #déterminer chunk à déplacer : 
         #random
-    img = random_choice(path_data, 1)
-    
-    to_remove = 0
-    for i in range(len(chunks)):
-        if img[0] in chunks[i]:
-            to_remove = i
+
+
     
     print(chunks)
     print(img)

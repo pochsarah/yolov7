@@ -714,8 +714,9 @@ if __name__ == '__main__':
     hyperparam = opt.hyp 
     path_data = opt.data
 
-    #\\TODO Séparer le pool unlabelled en paquets que l'on conserve jusqu'à la fin. 
-    chunks = draft.chunk_unlabelled(opt.data, 10)
+    # Test (Unlabelled) set séparé en plusieurs parties qui seront 
+    #déplacée d'un seul bloc
+    chunks = draft.chunk_unlabelled(opt.data, 5)
     
     i = 0 #nb of epoch
     nb_loop = 1
@@ -737,19 +738,22 @@ if __name__ == '__main__':
         path_weight = save_dir / 'weights'
         path_weight = path_weight / 'best.pt' # Récupère le meilleur poids
         opt.weights = str(path_weight)
-        print(opt.weights)
 
         opt.world_size = int(os.environ['WORLD_SIZE']) if 'WORLD_SIZE' in os.environ else 1
         opt.global_rank = int(os.environ['RANK']) if 'RANK' in os.environ else -1
         set_logging(opt.global_rank)
 
-        #TODO// modifier nom du projet pour le test 
+        projet_test = opt.project
+        projet_test = projet_test.replace("train", "test")
 
         # prediction sur le test dataset (unlabelled)
-        test_loop.test_main(opt)
+        test_loop.test_main(opt, projet_test)
 
         # suppression des fichiers de cache 
         draft.remove_cache(path_data)
+
+        draft.random_chunk(path_data, chunks)
+        
         """
         fonction qui : 
             si choix random : choisit une image de manière aléatoire -> déplace tout son paquet 
