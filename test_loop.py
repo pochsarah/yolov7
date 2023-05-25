@@ -18,7 +18,7 @@ from utils.plots import plot_images, output_to_target, plot_study_txt
 from utils.torch_utils import select_device, time_synchronized, TracedModel
 
 
-def test(data,
+def test(opt, data,
          weights=None,
          batch_size=32,
          imgsz=416,
@@ -298,7 +298,7 @@ def test_main(opt):
     #check_requirements()
 
     if opt.task in ('train', 'val', 'test'):  # run normally
-        test(data=opt.data,
+        test(opt, data=opt.data,
              weights=opt.weights,
              batch_size=opt.batch_size,
              imgsz=416,
@@ -321,7 +321,7 @@ def test_main(opt):
 
     elif opt.task == 'speed':  # speed benchmarks
         for w in opt.weights:
-            test(data=opt.data, weights=w, batch_size=opt.batch_size, imgsz=opt.img_size, conf_thres=0.25, iou_thres=0.45, device_t=opt.device, task=opt.task, save_json=False, project=opt.project, name=opt.name,exist_ok=opt.exist_ok, plots=False, v5_metric=opt.v5_metric)
+            test(opt, data=opt.data, weights=w, batch_size=opt.batch_size, imgsz=opt.img_size, conf_thres=0.25, iou_thres=0.45, device_t=opt.device, task=opt.task, save_json=False, project=opt.project, name=opt.name,exist_ok=opt.exist_ok, plots=False, v5_metric=opt.v5_metric)
 
     elif opt.task == 'study':  # run over a range of settings and save/plot
         # python test.py --task study --data coco.yaml --iou 0.65 --weights yolov7.pt
@@ -331,14 +331,14 @@ def test_main(opt):
             y = []  # y axis
             for i in x:  # img-size
                 print(f'\nRunning {f} point {i}...')
-                r, _, t = test(opt.data, w, opt.batch_size, i, opt.conf_thres, opt.iou_thres, device_t=opt.device, task=opt.task,  save_json=opt.save_json, project=opt.project,name=opt.name,exist_ok=opt.exist_ok,plots=False, v5_metric=opt.v5_metric)
+                r, _, t = test(opt, opt.data, w, opt.batch_size, i, opt.conf_thres, opt.iou_thres, device_t=opt.device, task=opt.task,  save_json=opt.save_json, project=opt.project,name=opt.name,exist_ok=opt.exist_ok,plots=False, v5_metric=opt.v5_metric)
                 y.append(r + t)  # results and times
             np.savetxt(f, y, fmt='%10.4g')  # save
         os.system('zip -r study.zip study_*.txt')
         plot_study_txt(x=x)  # plot
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(prog='test.py')
+    parser = argparse.ArgumentParser(prog='test_loop.py')
     parser.add_argument('--weights', nargs='+', type=str, default='yolov7.pt', help='model.pt path(s)')
     parser.add_argument('--data', type=str, default='data/coco.yaml', help='*.data path')
     parser.add_argument('--batch-size', type=int, default=32, help='size of each image batch')

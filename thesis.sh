@@ -13,3 +13,5 @@ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/share/castor/home/e1800093/.conda/envs/
 #  --name test_layers --linear-lr
 
 python -u train_loop.py --weights yolov7_training.pt --cfg cfg/training/yolov7.yaml --data data/subset_test_al.yaml --hyp data/hyp.scratch.evolved.yaml --epochs 12 --img-size 416 --device 0 --single-cls --workers 4 --project act_lear --name run1 --linear-lr --save-txt --save-hybrid --task test
+
+#python -u train_loop.py --weights epoch_299.pt --cfg cfg/training/yolov7.yaml --data data/data.yaml --hyp data/hyp.scratch.evolved.yaml --epochs 12 --img-size 416 --device cpu --single-cls --workers 4 --project act_lear --name run1 --linear-lr --save-txt --save-hybrid --task test
