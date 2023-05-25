@@ -207,7 +207,7 @@ def find_image(method: str, path: str):
     return max(dict_sc, key=dict_sc.get)
     
 def chunk_unlabelled(path, budget):
-    with open(path_data) as f:
+    with open(path) as f:
         data_dict = yaml.load(f, Loader=yaml.SafeLoader)
         liste = [data_dict['train'], data_dict['val'], data_dict['test']]
 

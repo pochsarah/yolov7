@@ -30,7 +30,7 @@ for last in path.rglob('*/**/last.pt'):
         port += 1
         cmd = f'python -m torch.distributed.launch --nproc_per_node {nd} --master_port {port} train.py --resume {last}'
     else:  # single-GPU
-        cmd = f'python train.py --resume {last}'
+        cmd = f'python train_active.py --resume {last}'
 
     cmd += ' > /dev/null 2>&1 &'  # redirect output to dev/null and run in daemon thread
     print(cmd)

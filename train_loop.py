@@ -715,9 +715,8 @@ if __name__ == '__main__':
     path_data = opt.data
 
     #\\TODO Séparer le pool unlabelled en paquets que l'on conserve jusqu'à la fin. 
-    chunks = draft.chunk_unlabelled(path, 10)
-    print(chunks)
-    """
+    chunks = draft.chunk_unlabelled(opt.data, 10)
+    
     i = 0 #nb of epoch
     nb_loop = 1
     while (i != 300 and nb_loop < 2): #ajouter condition de unlabelled vide
@@ -751,7 +750,7 @@ if __name__ == '__main__':
 
         # suppression des fichiers de cache 
         draft.remove_cache(path_data)
-
+        """
         fonction qui : 
             si choix random : choisit une image de manière aléatoire -> déplace tout son paquet 
             si choix non randome : 
@@ -759,9 +758,8 @@ if __name__ == '__main__':
                 calcule le score pour chaque detection 
                 aggrege selon max ,avg, sum pour chaque image 
                 fait la somme par paquet
-                deplace le paquet avec la plus grosse valeur
-        
+                deplace le paquet avec la plus grosse valeur """      
 
         #draft.move_pool_random(path_data, 5)
         opt.name = opt.name + "_"+ str(nb_loop)
-        opt.hyp = hyperparam """
+        opt.hyp = hyperparam 
