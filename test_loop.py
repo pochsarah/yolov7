@@ -18,12 +18,14 @@ from utils.plots import plot_images, output_to_target, plot_study_txt
 from utils.torch_utils import select_device, time_synchronized, TracedModel
 
 
-def test(opt, data,
+def test(data,
          weights=None,
          batch_size=32,
-         imgsz=640,
+         imgsz=416,
          conf_thres=0.001,
          iou_thres=0.6,  # for NMS
+         task='test', 
+         device_t="cpu",
          save_json=False,
          single_cls=False,
          augment=False,
@@ -34,6 +36,9 @@ def test(opt, data,
          save_txt=False,  # for auto-labelling
          save_hybrid=False,  # for hybrid auto-labelling
          save_conf=False,  # save auto-label confidences
+         project="runs/test", 
+         name="exp",
+         exist_ok=False,
          plots=True,
          wandb_logger=None,
          compute_loss=None,
@@ -48,10 +53,10 @@ def test(opt, data,
 
     else:  # called directly
         set_logging()
-        device = select_device(opt.device, batch_size=batch_size)
+        device = select_device(device_t, batch_size=batch_size)
 
         # Directories
-        save_dir = Path(increment_path(Path(opt.project_test) / opt.name, exist_ok=opt.exist_ok))  # increment run
+        save_dir = Path(increment_path(Path(project) / name, exist_ok=exist_ok))  # increment run
         (save_dir / 'labels' if save_txt else save_dir).mkdir(parents=True, exist_ok=True)  # make dir
 
         # Load model
@@ -86,7 +91,7 @@ def test(opt, data,
     if not training:
         if device.type != 'cpu':
             model(torch.zeros(1, 3, imgsz, imgsz).to(device).type_as(next(model.parameters())))  # run once
-        task = opt.task if opt.task in ('train', 'val', 'test') else 'val'  # path to train/val/test images
+        task = task if task in ('train', 'val', 'test') else 'val'  # path to train/val/test images
         dataloader = create_dataloader(data[task], imgsz, batch_size, gs, opt, pad=0.5, rect=True,
                                        prefix=colorstr(f'{task}: '))[0]
 
@@ -286,31 +291,37 @@ def test(opt, data,
         maps[c] = ap[i]
     return (mp, mr, map50, map, *(loss.cpu() / len(dataloader)).tolist()), maps, t
 
-def test_main(opt): 
+def test_main(opt):
     opt.save_json |= opt.data.endswith('coco.yaml')
     opt.data = check_file(opt.data)  # check file
     print(opt)
+    #check_requirements()
+
     if opt.task in ('train', 'val', 'test'):  # run normally
-        test(opt, opt.data,
-             opt.weights,
-             opt.batch_size,
-             opt.imgt_size,
-             opt.conf_thres,
-             opt.iou_thres,
-             opt.save_json,
-             opt.single_cls,
-             opt.augment,
-             opt.verbose,
+        test(data=opt.data,
+             weights=opt.weights,
+             batch_size=opt.batch_size,
+             imgsz=416,
+             conf_thres=opt.conf_thres,
+             iou_thres=opt.iou_thres,
+             device_t=opt.device, 
+             save_json=opt.save_json,
+             single_cls=opt.single_cls,
+             augment=opt.augment,
+             verbose=opt.verbose,
              save_txt=opt.save_txt | opt.save_hybrid,
              save_hybrid=opt.save_hybrid,
              save_conf=opt.save_conf,
+             project=opt.project, 
+             name=opt.name, 
+             exist_ok=opt.exist_ok, 
              trace=not opt.no_trace,
              v5_metric=opt.v5_metric
              )
 
     elif opt.task == 'speed':  # speed benchmarks
         for w in opt.weights:
-            test(opt, opt.data, w, opt.batch_size, opt.imgt_size, 0.25, 0.45, save_json=False, plots=False, v5_metric=opt.v5_metric)
+            test(data=opt.data, weights=w, batch_size=opt.batch_size, imgsz=opt.img_size, conf_thres=0.25, iou_thres=0.45, device_t=opt.device, task=opt.task, save_json=False, project=opt.project, name=opt.name,exist_ok=opt.exist_ok, plots=False, v5_metric=opt.v5_metric)
 
     elif opt.task == 'study':  # run over a range of settings and save/plot
         # python test.py --task study --data coco.yaml --iou 0.65 --weights yolov7.pt
@@ -320,19 +331,18 @@ def test_main(opt):
             y = []  # y axis
             for i in x:  # img-size
                 print(f'\nRunning {f} point {i}...')
-                r, _, t = test(opt, opt.data, w, opt.batch_size, i, opt.conf_thres, opt.iou_thres, opt.save_json,
-                               plots=False, v5_metric=opt.v5_metric)
+                r, _, t = test(opt.data, w, opt.batch_size, i, opt.conf_thres, opt.iou_thres, device_t=opt.device, task=opt.task,  save_json=opt.save_json, project=opt.project,name=opt.name,exist_ok=opt.exist_ok,plots=False, v5_metric=opt.v5_metric)
                 y.append(r + t)  # results and times
             np.savetxt(f, y, fmt='%10.4g')  # save
         os.system('zip -r study.zip study_*.txt')
         plot_study_txt(x=x)  # plot
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(prog='test_al.py')
+    parser = argparse.ArgumentParser(prog='test.py')
     parser.add_argument('--weights', nargs='+', type=str, default='yolov7.pt', help='model.pt path(s)')
     parser.add_argument('--data', type=str, default='data/coco.yaml', help='*.data path')
     parser.add_argument('--batch-size', type=int, default=32, help='size of each image batch')
-    parser.add_argument('--imgt-size', type=int, default=416, help='inference size (pixels)')
+    parser.add_argument('--img-size', type=int, default=640, help='inference size (pixels)')
     parser.add_argument('--conf-thres', type=float, default=0.001, help='object confidence threshold')
     parser.add_argument('--iou-thres', type=float, default=0.65, help='IOU threshold for NMS')
     parser.add_argument('--task', default='val', help='train, val, test, speed or study')
@@ -344,15 +354,11 @@ if __name__ == '__main__':
     parser.add_argument('--save-hybrid', action='store_true', help='save label+prediction hybrid results to *.txt')
     parser.add_argument('--save-conf', action='store_true', help='save confidences in --save-txt labels')
     parser.add_argument('--save-json', action='store_true', help='save a cocoapi-compatible JSON results file')
-    parser.add_argument('--project-test', default='runs/test', help='save to project/name')
+    parser.add_argument('--project', default='runs/test', help='save to project/name')
     parser.add_argument('--name', default='exp', help='save to project/name')
     parser.add_argument('--exist-ok', action='store_true', help='existing project/name ok, do not increment')
     parser.add_argument('--no-trace', action='store_true', help='don`t trace model')
     parser.add_argument('--v5-metric', action='store_true', help='assume maximum recall as 1.0 in AP calculation')
-    
     opt = parser.parse_args()
-
-
-    #check_requirements()
 
     test_main(opt)

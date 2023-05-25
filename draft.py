@@ -4,90 +4,7 @@ from collections import Counter
 import yaml
 import random
 
-def getListe(path):
-    ###
-    # Calcul d'un indice pour la sélection d'un certain nombre d'image
-    #
-
-    #les labels sont dans un dossier - une fichier par image avec dans ce fichier les coordonnées des bbx détectés
-    # avec indice de confidence. 
-    liste_files = os.listdir(path)
-    liste_files.sort()
-
-    #faire une liste avec tous les objets détectés + nom de l'image  
-    # après calcule l'indice et sort() en fonction de ce nombre
-
-    liste_obj = [] 
-
-    for i in liste_files : 
-        with open(path+i, "r")as f :
-            liste_tmp = f.read().splitlines()
-            liste_tmp = [it.split(" ") for it in liste_tmp]
-        for elt in liste_tmp : 
-            elt.append(i)
-            liste_obj.append(elt)
-    return liste_obj 
-
-
-def takeConf(elem):
-    return elem[5]
-
-
-def maximum(liste, budget):
-    # on suppose que la liste est au bon format - 6 col annotation + fichier - a cheker auparavant 
-    # retourne la liste des images à ajouter 
-    liste_img = []
-    liste.sort(reverse=True, key=takeFile)
-    for elt in liste : 
-        if elt[6] not in liste_img and  len(liste_img) <= budget :
-            liste_img.append(elt[6])
-    return liste_img
-
-def extract_lower(liste, budget): 
-    liste_img = []
-    liste.sort(key=takeFile)
-    for elt in liste : 
-        if elt[6] not in liste_img and  len(liste_img) <= budget :
-            liste_img.append(elt[6])
-    return liste_img
-
-"""A low valuation effectively delays the selection of empty examples until there are either 
-no better examples left or the model has improved enough to actually produce detections on them"""
-
-def takeFile(elt):
-    return elt[1]
-
-def sum(liste, budget): 
-    #dictionnaire avec chaque valeur de fichier
-    liste_sum = []
-    
-    for elt in liste : 
-        f = [it[0] for it in liste_sum]
-        if elt[6] not in f : 
-            liste_sum.append([elt[6], float(elt[5])])
-        else :
-            idx = f.index(elt[6])
-            liste_sum[idx][1] += float(elt[5])
-    liste_sum.sort(reverse=True, key=takeFile)
-    pool = liste_sum[:budget]
-    return [it[0] for it in pool]
-
-def average(liste, budget):
-    #pas hyper precis risques de décalage à améliorer
-        counter = Counter([it[6] for it in liste])
-        count = list(counter.values())
-        name = list(counter.keys())
-        somme = [0]*len(count)
-        for it in liste : 
-            idx = name.index(it[6])
-            somme[idx] += float(it[5])
-        av = [somme[i]/count[i] for i in range(len(count))]
-        f = [[name[i], av[i]] for i in range(len(name))]
-        f.sort(reverse=True, key=takeFile)
-        pool = f[:budget]
-        return [it[0] for it in pool]
-
-
+#---------------------------------------------------------------------------
 def add_remove_images(train_txt: str, test_txt: str, liste_images: list): 
     """
     Remove the images from the test text file to the train text file
@@ -111,7 +28,7 @@ def add_remove_images(train_txt: str, test_txt: str, liste_images: list):
                 if l not in liste_images :
                     f.write(l+"\n")
 
-def remove_cache(path):  
+def remove_cache(path: str):  
     """
     Remove the cache files created for the previous training. 
 
@@ -127,13 +44,30 @@ def remove_cache(path):
             if os.path.exists(it):
                 os.remove(it)
 
-def random_choice(test_txt, budget):
+def random_choice(test_txt: str, budget: int):
+    """
+    Select randomly a define number of lines from a text file 
+
+    Args : 
+        text_txt : path of the text file containing the path of the test images
+        budget : number of line to be randomly selected
+    
+    Return : List of the selected lines
+    """
     with open(test_txt, 'r') as f:
         liste = f.read().splitlines()
     return random.choices(liste, k=budget) 
 
 def move_pool_random(path, budget):
-    
+    """
+    Move a pool of images from the test dataset to the train dataset 
+
+    Args: 
+        path: Path of the data .yaml file (opt.data)
+        budget: Number of images which will be moved
+
+    Return : None 
+    """
     with open(path) as f:
         data_dict = yaml.load(f, Loader=yaml.SafeLoader)
         liste = [data_dict['train'], data_dict['test']]
@@ -142,14 +76,146 @@ def move_pool_random(path, budget):
 
     add_remove_images(liste[0], liste[1], pool)
 
+def margin_sampling_bin(p: float):
+    """
+    Calculation of the margin sampling utility score
+
+    Args:
+        p: Probability of having an item on the bounding box
+
+    Return : Utility score
+    """
+    return (1 - abs(2*p-1))**2
+
+def l_score_image(path: str):
+    """
+    Get the utility score for each detection in an image 
+
+    Args: 
+        path: Path of the image predicted label text file
+
+    Return : List of all the utility scores for the image
+    """
+    liste_score = []
+
+    with open(path, 'r') as f:
+        detect = f.read().splitlines()
+        detect = [it.split(" ") for it in detect]
+    return [margin_sampling_bin(float(it[5])) for it in detect] 
+
+def all_scores(path: str):
+    """ 
+    Get all the utility score for each image of the test set
+
+    Args:
+        path: Path of the folder containing the prediction text files
+
+    Return: Dictionnary with key is name of image and 
+            values list of utility score of the image 
+    """ 
+    images = os.listdir(path)
+    dict_img = dict()
+    for it in images : 
+        dict_img[it] = l_score_image(path+it)
+    return dict_img
+
+def sum_scores(dict_img: dict):
+    """
+    Calculate the sum of the utility scores for a whole image. 
+
+    Parameters
+    ----------
+    dict_img : dict
+        keys are the path of the labels text file of an image and 
+        values are the list of the utility score for all the dectections
+
+    Returns
+    -------
+    dict_sum : dict
+        keys are the path of the labels text fil of an image and 
+        values are the sum of all the detections utility scores of the image.
+
+    """
+    dict_sum = dict()
+    for it in dict_img.items():
+        dict_sum[it[0]] = sum(it[1])
+    return dict_sum
+
+def avg_scores(dict_img: dict): 
+    """
+    Calculate the average of the utility scores for a whole image. 
+
+    Parameters
+    ----------
+    dict_img : dict
+        keys are the path of the labels text file of an image and 
+        values are the list of the utility score for all the dectections
+
+    Returns
+    -------
+    dict_avg : dict
+        keys are the path of the labels text fil of an image and 
+        values are the average of all the detections utility scores of the image.
+
+    """
+    dict_avg = dict()
+    for it in dict_img.items():
+        dict_avg[it[0]] = sum(it[1])/len(it[1])
+    return dict_avg
+
+def max_scores(dict_img: dict): 
+    """
+    Find the maximum utility score of the image. 
+
+    Parameters
+    ----------
+    dict_img : dict
+        keys are the path of the labels text file of an image and 
+        values are the list of the utility score for all the dectections
+
+    Returns
+    -------
+    dict_max : dict
+        keys are the path of the labels text fil of an image and 
+        values are the maximal  utility scores of the image.
+
+    """
+    dict_max = dict()
+    for it in dict_img.items():
+        dict_max[it[0]] = max(it[1])
+    return dict_max
+
+#---------------------------------------------------------------------------
+
+def find_image(method: str, path: str):
+    # simplifier le truc
+    dict_img = all_scores(path)
+    
+    if method == "sum":
+        dict_sc = sum_scores(dict_img)
+    elif method == "average":
+        dict_sc = avg_scores(dict_img)
+    elif method == "maximum" : 
+        dict_sc = max_scores(dict_img)
+    else: 
+        #raise error
+        print("choose bewteen")
+    return max(dict_sc, key=dict_sc.get)
+    
+    
+ 
 if __name__ == '__main__':
 
 
-    path = "/mnt/c/Users/sarah/Documents/yolov7/data/data.yaml"
+    path = "./v5/test/final_baseline_subset1_custom_linear_SGD6/labels/"
 
-    move_pool_random(path, 5)
-
-
-
-    #add_remove_images('/mnt/c/Users/sarah/Documents/test_al/train.txt', '/mnt/c/Users/sarah/Documents/test_al/test.txt', ["5", "6"])
-    #remove_cache("/mnt/c/Users/sarah/Documents/yolov7/data/data.yaml")
+    #dict_img = all_scores(path)
+    #print(max_scores(dict_img))
+    
+    print(find_image("sum", path))
+    print(find_image("average", path))
+    print(find_image("maximum", path))
+    #a vérifier 
+    
+    #prendre en compte le fait que l'on fonctionne par paquet...
+    

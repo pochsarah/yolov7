@@ -712,9 +712,7 @@ while (i != 300): #ajouter condition de unlabelled vide
     opt.world_size = int(os.environ['WORLD_SIZE']) if 'WORLD_SIZE' in os.environ else 1
     opt.global_rank = int(os.environ['RANK']) if 'RANK' in os.environ else -1
     set_logging(opt.global_rank)
-    #if opt.global_rank in [-1, 0]:
-    #    check_git_status()
-    #    check_requirements()
+    
 
     main_training(opt)
 
@@ -729,9 +727,6 @@ while (i != 300): #ajouter condition de unlabelled vide
     opt.world_size = int(os.environ['WORLD_SIZE']) if 'WORLD_SIZE' in os.environ else 1
     opt.global_rank = int(os.environ['RANK']) if 'RANK' in os.environ else -1
     set_logging(opt.global_rank)
-    #if opt.global_rank in [-1, 0]:
-    #    check_git_status()
-    #    check_requirements()
 
     draft.remove_cache(path_data)
     draft.move_pool_random(path_data, 5)
