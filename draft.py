@@ -10,12 +10,8 @@ def add_remove_images(path: str, liste_images: list):
     Remove the images from the test text file to the train text file
 
     Args: 
-        train_txt: Path of the text file containing the path of the training images
-        test_txt: Path of the text file containing the path of the test images
+        path: Path of the data .yaml file (opt.data)
         liste_images: List of the images which go from the test dataset to the train dataset
-    
-    Return: 
-        None
     """
     with open(path) as f:
         data_dict = yaml.load(f, Loader=yaml.SafeLoader)
@@ -37,8 +33,6 @@ def remove_cache(path: str):
     Remove the cache files created for the previous training. 
 
     Args: Path of the data .yaml file (opt.data)
-
-    Return: None 
     """  
     with open(path) as f:
         data_dict = yaml.load(f, Loader=yaml.SafeLoader)
@@ -50,7 +44,7 @@ def remove_cache(path: str):
 
 def random_choice(path: str, budget: int):
     """
-    Select randomly a define number of lines from a text file 
+    Select randomly a define number of lines from a text file - test set 
 
     Args : 
         path : Path of data .yaml file (opt.data)
@@ -60,9 +54,9 @@ def random_choice(path: str, budget: int):
     """
     with open(path) as f:
         data_dict = yaml.load(f, Loader=yaml.SafeLoader)
-        liste = [data_dict['train'], data_dict['test']]
+        liste = data_dict['test']
     
-    with open(liste[1], 'r') as f:
+    with open(liste, 'r') as f:
         liste = f.read().splitlines()
     return random.choices(liste, k=budget) 
 
@@ -73,8 +67,6 @@ def move_pool_random(path, budget):
     Args: 
         path: Path of the data .yaml file (opt.data)
         budget: Number of images which will be moved
-
-    Return : None 
     """
     with open(path) as f:
         data_dict = yaml.load(f, Loader=yaml.SafeLoader)
@@ -213,9 +205,9 @@ def find_image(method: str, path: str):
 def chunk_unlabelled(path, budget):
     with open(path) as f:
         data_dict = yaml.load(f, Loader=yaml.SafeLoader)
-        liste = [data_dict['train'], data_dict['val'], data_dict['test']]
+        liste = data_dict['test']
 
-    with open(liste[2], 'r') as f:
+    with open(liste, 'r') as f:
         liste = f.read().splitlines()
     
     random.seed(0)
@@ -232,6 +224,8 @@ def random_chunk(path_data, chunks):
             to_remove = i
     
     add_remove_images(path_data, chunks[to_remove])
+    
+    #retourner le chunk mais sans la liste enlever ou l'indice à enlever. 
 
 if __name__ == '__main__':
     
@@ -243,18 +237,18 @@ if __name__ == '__main__':
     
     
     file = find_image("sum", path)
-
-    print(file)
     
-    file = file.replace("txt", "jpg")
-    print(file)   
-    
+    file = file.replace("txt", "jpg")    
 
     for j in range(len(chunks)):
         for i in range(len(chunks[j])):
             if "200521_133_21620_3.jpg" in chunks[j][i]:
-                print(j)
+                to_remove = j 
                 break
+    
+    add_remove_images(path_data, chunks[j])
+        
+    
     
     def test(path_data, path, method):
         if method == "random" : 
