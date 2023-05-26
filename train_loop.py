@@ -750,7 +750,7 @@ if __name__ == '__main__':
         #chemin des labels
         path_label = str(save_dir)
         path_label = path_label.replace('train', 'test')
-        path_label += "labels/"
+        path_label += "/labels/"
         
         method = "sum"
         
@@ -762,4 +762,3 @@ if __name__ == '__main__':
         chunks.remove(chunks[j])
         print(len(chunks))
         opt.name = opt.name + "_"+ str(nb_loop)
-        opt.hyp = hyperparam 
