@@ -758,8 +758,8 @@ if __name__ == '__main__':
             j = draft.random_chunk(path_data, chunks)
         else: 
             j = draft.select_chunk(path_label, path_data, method)
-            
+        print(len(chunks))
         chunks.remove(chunks[j])
-
+        print(len(chunks))
         opt.name = opt.name + "_"+ str(nb_loop)
         opt.hyp = hyperparam 
