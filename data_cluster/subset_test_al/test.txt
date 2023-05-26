@@ -211,7 +211,6 @@
 /share/projects/semmacape/Data_Semmacape_2/416_non_empty/200520_133_8592_0.jpg
 /share/projects/semmacape/Data_Semmacape_2/416_non_empty/200521_111_16718_5.jpg
 /share/projects/semmacape/Data_Semmacape_2/416_non_empty/200521_133_20905_0.jpg
-<<<<<<< HEAD
 /share/projects/semmacape/Data_Semmacape_2/416_non_empty/200520_111_4291_0.jpg
 /share/projects/semmacape/Data_Semmacape_2/416_non_empty/200521_111_16723_1.jpg
 /share/projects/semmacape/Data_Semmacape_2/416_non_empty/200520_133_4128_7.jpg
@@ -249,13 +248,3 @@
 /share/projects/semmacape/Data_Semmacape_2/416_non_empty/200521_133_16029_0.jpg
 /share/projects/semmacape/Data_Semmacape_2/416_non_empty/200521_133_21632_6.jpg
 /share/projects/semmacape/Data_Semmacape_2/416_non_empty/200521_111_16716_2.jpg
-=======
-/share/projects/semmacape/Data_Semmacape_2/416_non_empty/200520_133_8593_5.jpg
-/share/projects/semmacape/Data_Semmacape_2/416_non_empty/200520_133_6002_5.jpg
-/share/projects/semmacape/Data_Semmacape_2/416_non_empty/200520_133_6003_8.jpg
-/share/projects/semmacape/Data_Semmacape_2/416_non_empty/200521_111_16716_6.jpg
-/share/projects/semmacape/Data_Semmacape_2/416_non_empty/200520_111_5163_12.jpg
-/share/projects/semmacape/Data_Semmacape_2/416_non_empty/200521_133_21619_4.jpg
-/share/projects/semmacape/Data_Semmacape_2/416_non_empty/200521_111_16717_11.jpg
-/share/projects/semmacape/Data_Semmacape_2/416_non_empty/200521_133_21620_4.jpg
->>>>>>> d43cd07d8f6f723850c24118ad60131f1df2d865
