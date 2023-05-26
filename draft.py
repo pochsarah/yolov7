@@ -224,46 +224,47 @@ def random_chunk(path_data, chunks):
             to_remove = i
     
     add_remove_images(path_data, chunks[to_remove])
+    return to_remove
     
-    #retourner le chunk mais sans la liste enlever ou l'indice à enlever. 
 
-if __name__ == '__main__':
-    
-    path = "./v5/test/final_baseline_subset1_custom_linear_SGD6/labels/"
-
-    path_data = "./data/data.yaml"
-
-    chunks = chunk_unlabelled(path_data, 5)
-    
-    
-    file = find_image("sum", path)
+def select_chunk(path_label, path_data, method) :  
+    file = find_image(method, path_label)
     
     file = file.replace("txt", "jpg")    
 
     for j in range(len(chunks)):
         for i in range(len(chunks[j])):
-            if "200521_133_21620_3.jpg" in chunks[j][i]:
+            if file in chunks[j][i]:
                 to_remove = j 
                 break
     
     add_remove_images(path_data, chunks[j])
+    return j    
+ 
+
+    #retourner le chunk mais sans la liste enlever ou l'indice à enlever. 
+
+if __name__ == '__main__':
+    
+    path = "./act_lear/run12/labels/"
+
+    path_data = "./data/data.yaml"
+
+    chunks = chunk_unlabelled(path_data, 5)
+    
+    method = "random"
+    
+    if method == "sum":
+        j = random_chunk(path_data, chunks)
+    else: 
+        j = select_chunk(path, path_data, method)
+        
+    print(j)
+    print(chunks[j])
+    chunks.remove(chunks[j])
+    print(chunks)
         
     
-    
-    def test(path_data, path, method):
-        if method == "random" : 
-            img = random_choice(path_data, 1)
-            return img
-        elif method in ["sum", "average", "maximum"]:
-            if method == "sum": 
-                file = find_image("sum", path)
-            elif method == "average":
-                file = find_image("average", path)
-            elif method == "maximum":
-                file = find_image("maximum", path)
-            return file
-        else:
-            return "change" 
 
 
     """

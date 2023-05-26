@@ -720,7 +720,7 @@ if __name__ == '__main__':
     
     i = 0 #nb of epoch
     nb_loop = 1
-    while (i != 300): #ajouter condition de unlabelled vide
+    while (i != 300 and nb_loop <3): #ajouter condition de unlabelled vide
         i += opt.epochs
         nb_loop += 1
 
@@ -747,10 +747,19 @@ if __name__ == '__main__':
         # suppression des fichiers de cache 
         draft.remove_cache(path_data)
 
-        draft.random_chunk(path_data, chunks)
-
-        #penser a enlever le chunk 
-        #chunks.remove(chunks[j])
+        #chemin des labels
+        path_label = str(save_dir)
+        path_label = path_label.replace('train', 'test')
+        path_label += "labels/"
+        
+        method = "sum"
+        
+        if method == "random":
+            j = draft.random_chunk(path_data, chunks)
+        else: 
+            j = draft.select_chunk(path_label, path_data, method)
+            
+        chunks.remove(chunks[j])
 
         opt.name = opt.name + "_"+ str(nb_loop)
         opt.hyp = hyperparam 
