@@ -761,4 +761,7 @@ if __name__ == '__main__':
         print(len(chunks))
         chunks.remove(chunks[j])
         print(len(chunks))
+        
         opt.name = opt.name + "_"+ str(nb_loop)
+        opt.hyp = hyperparam
+
