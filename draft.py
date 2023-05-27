@@ -200,7 +200,7 @@ def find_image(method: str, path: str):
     else: 
         #raise error
         print("choose bewteen")
-    return max(dict_sc, key=dict_sc.get)
+    return max(dict_sc, key=dict_sc.get) #remplacer par la somme par chunk. 
     
 def chunk_unlabelled(path, budget):
     with open(path) as f:
@@ -227,7 +227,7 @@ def random_chunk(path_data, chunks):
     return to_remove
     
 
-def select_chunk(path_label, path_data, method) :  
+def select_chunk(path_label, path_data, method, chunks) :  
     file = find_image(method, path_label)
     
     file = file.replace("txt", "jpg")    
@@ -242,7 +242,6 @@ def select_chunk(path_label, path_data, method) :
     return j    
  
 
-    #retourner le chunk mais sans la liste enlever ou l'indice à enlever. 
 
 if __name__ == '__main__':
     

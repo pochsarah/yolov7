@@ -698,8 +698,8 @@ if __name__ == '__main__':
     parser.add_argument('--artifact_alias', type=str, default="latest", help='version of dataset artifact to be used')
     parser.add_argument('--freeze', nargs='+', type=int, default=[0], help='Freeze layers: backbone of yolov7=50, first3=0 1 2')
     parser.add_argument('--v5-metric', action='store_true', help='assume maximum recall as 1.0 in AP calculation')
-    parser.add_argument('--conf-thres', type=float, default=0.001, help='object confidence threshold')
-    parser.add_argument('--iou-thres', type=float, default=0.65, help='IOU threshold for NMS')
+    parser.add_argument('--conf-thres', type=float, default=0.001, help='object confidence threshold') #changer pour le set Test.
+    parser.add_argument('--iou-thres', type=float, default=0.65, help='IOU threshold for NMS')  
     parser.add_argument('--task', default='val', help='train, val, test, speed or study')
     parser.add_argument('--augment', action='store_true', help='augmented inference')
     parser.add_argument('--verbose', action='store_true', help='report mAP by class')
@@ -757,7 +757,7 @@ if __name__ == '__main__':
         if method == "random":
             j = draft.random_chunk(path_data, chunks)
         else: 
-            j = draft.select_chunk(path_label, path_data, method)
+            j = draft.select_chunk(path_label, path_data, method, chunks)
         print(len(chunks))
         chunks.remove(chunks[j])
         print(len(chunks))
