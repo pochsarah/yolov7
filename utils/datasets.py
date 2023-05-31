@@ -347,7 +347,14 @@ class LoadStreams:  # multiple IP or RTSP cameras
 def img2label_paths(img_paths):
     # Define label paths as a function of image paths
     sa, sb = os.sep + 'images' + os.sep, os.sep + 'labels' + os.sep  # /images/, /labels/ substrings
-    return ['txt'.join(x.replace(sa, sb, 1).rsplit(x.split('.')[-1], 1)) for x in img_paths]
+    liste = []
+    for x in img_paths: 
+        if ("non_empty" in x):
+            liste.append('txt'.join(x.replace(sa, sb, 1).rsplit(x.split('.')[-1], 1)))
+        else: 
+            liste.append('txt'.join(x.replace('/home/sarah/master_thesis/data/empty/', '/home/sarah/master_thesis/labels_empty/').rsplit(x.split('.')[-1], 1)))
+    
+    return liste #['txt'.join(x.replace(sa, sb, 1).rsplit(x.split('.')[-1], 1)) for x in img_paths]
 
 
 class LoadImagesAndLabels(Dataset):  # for training/testing
@@ -387,6 +394,7 @@ class LoadImagesAndLabels(Dataset):  # for training/testing
 
         # Check cache
         self.label_files = img2label_paths(self.img_files)  # labels
+
         cache_path = (p if p.is_file() else Path(self.label_files[0]).parent).with_suffix('.cache')  # cached labels
         if cache_path.is_file():
             cache, exists = torch.load(cache_path), True  # load
@@ -473,6 +481,8 @@ class LoadImagesAndLabels(Dataset):  # for training/testing
         nm, nf, ne, nc = 0, 0, 0, 0  # number missing, found, empty, duplicate
         pbar = tqdm(zip(self.img_files, self.label_files), desc='Scanning images', total=len(self.img_files))
         for i, (im_file, lb_file) in enumerate(pbar):
+            #import pdb 
+            #pdb.set_trace()
             try:
                 # verify images
                 im = Image.open(im_file)
@@ -481,6 +491,7 @@ class LoadImagesAndLabels(Dataset):  # for training/testing
                 segments = []  # instance segments
                 assert (shape[0] > 9) & (shape[1] > 9), f'image size {shape} <10 pixels'
                 assert im.format.lower() in img_formats, f'invalid image format {im.format}'
+                
 
                 # verify labels
                 if os.path.isfile(lb_file):

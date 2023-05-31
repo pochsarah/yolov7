@@ -1,15 +1,34 @@
-/mnt/c/Users/sarah/Documents/yolo_data/non_empty/200520_133_7552_31.jpg
-/mnt/c/Users/sarah/Documents/yolo_data/non_empty/200521_133_21620_2.jpg
-/mnt/c/Users/sarah/Documents/yolo_data/non_empty/200521_133_21620_3.jpg
-/mnt/c/Users/sarah/Documents/yolo_data/non_empty/200521_133_21621_3.jpg
-/mnt/c/Users/sarah/Documents/yolo_data/non_empty/200520_133_7552_3.jpg
-/mnt/c/Users/sarah/Documents/yolo_data/non_empty/200521_133_21631_2.jpg
-/mnt/c/Users/sarah/Documents/yolo_data/non_empty/200521_133_21620_7.jpg
-/mnt/c/Users/sarah/Documents/yolo_data/non_empty/200521_133_21632_0.jpg
-/mnt/c/Users/sarah/Documents/yolo_data/non_empty/200520_133_7552_43.jpg
-/mnt/c/Users/sarah/Documents/yolo_data/non_empty/200520_133_7552_47.jpg
-/mnt/c/Users/sarah/Documents/yolo_data/non_empty/200521_133_21621_16.jpg
-/mnt/c/Users/sarah/Documents/yolo_data/non_empty/200520_133_7552_48.jpg
-/mnt/c/Users/sarah/Documents/yolo_data/non_empty/200520_133_7552_32.jpg
-/mnt/c/Users/sarah/Documents/yolo_data/non_empty/200520_133_4129_7.jpg
-/mnt/c/Users/sarah/Documents/yolo_data/non_empty/200521_133_21632_2.jpg
+ /home/sarah/master_thesis/data/empty/200521_133_20959_571.jpg
+ /home/sarah/master_thesis/data/empty/200521_133_20959_55.jpg
+ /home/sarah/master_thesis/data/empty/200521_133_20959_572.jpg
+ /home/sarah/master_thesis/data/empty/200521_133_20959_537.jpg
+ /home/sarah/master_thesis/data/empty/200521_133_20959_552.jpg
+ /home/sarah/master_thesis/data/empty/200521_133_20959_508.jpg
+ /home/sarah/master_thesis/data/empty/200521_133_20959_516.jpg
+ /home/sarah/master_thesis/data/empty/200521_133_20959_531.jpg
+ /home/sarah/master_thesis/data/empty/200521_133_20959_52.jpg
+ /home/sarah/master_thesis/data/empty/200521_133_20959_559.jpg
+ /home/sarah/master_thesis/data/empty/200521_133_20959_574.jpg
+ /home/sarah/master_thesis/data/empty/200521_133_20959_514.jpg
+ /home/sarah/master_thesis/data/empty/200521_133_20959_523.jpg
+ /home/sarah/master_thesis/data/empty/200521_133_20959_534.jpg
+ /home/sarah/master_thesis/data/empty/200521_133_20959_558.jpg
+ /home/sarah/master_thesis/data/empty/200521_133_20959_573.jpg
+ /home/sarah/master_thesis/data/empty/200521_133_20959_58.jpg
+ /home/sarah/master_thesis/data/empty/200521_133_20959_587.jpg
+ /home/sarah/master_thesis/data/empty/200521_133_20959_595.jpg
+ /home/sarah/master_thesis/data/empty/200521_133_20959_56.jpg
+ /home/sarah/master_thesis/data/empty/200521_133_20959_535.jpg
+ /home/sarah/master_thesis/data/empty/200521_133_20959_569.jpg
+ /home/sarah/master_thesis/data/empty/200521_133_20959_542.jpg
+ /home/sarah/master_thesis/data/empty/200521_133_20959_528.jpg
+ /home/sarah/master_thesis/data/empty/200521_133_20959_59.jpg
+ /home/sarah/master_thesis/data/empty/200521_133_20959_57.jpg
+ /home/sarah/master_thesis/data/empty/200521_133_20959_555.jpg
+ /home/sarah/master_thesis/data/empty/200521_133_20959_527.jpg
+ /home/sarah/master_thesis/data/empty/200521_133_20959_585.jpg
+ /home/sarah/master_thesis/data/empty/200521_133_20959_565.jpg
+ /home/sarah/master_thesis/data/empty/200521_133_20959_549.jpg
+ /home/sarah/master_thesis/data/empty/200521_133_20959_548.jpg
+ /home/sarah/master_thesis/data/empty/200521_133_20959_561.jpg
+ /home/sarah/master_thesis/data/empty/200521_133_20959_594.jpg
