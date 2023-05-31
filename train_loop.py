@@ -720,7 +720,7 @@ if __name__ == '__main__':
     
     i = 0 #nb of epoch
     nb_loop = 1
-    while (i != 300 and nb_loop <3): #ajouter condition de unlabelled vide
+    while (i != 200): #ajouter condition de unlabelled vide
         i += opt.epochs
         nb_loop += 1
 
