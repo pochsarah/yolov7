@@ -352,7 +352,7 @@ def img2label_paths(img_paths):
         if ("non_empty" in x):
             liste.append('txt'.join(x.replace(sa, sb, 1).rsplit(x.split('.')[-1], 1)))
         else: 
-            liste.append('txt'.join(x.replace('/home/sarah/master_thesis/data/empty/', '/home/sarah/master_thesis/labels_empty/').rsplit(x.split('.')[-1], 1)))
+            liste.append('txt'.join(x.replace('/share/projects/semmacape/Data_Semmacape_2/416_empty/', '/share/castor/home/e1800093/labels_empty/').rsplit(x.split('.')[-1], 1)))
     
     return liste #['txt'.join(x.replace(sa, sb, 1).rsplit(x.split('.')[-1], 1)) for x in img_paths]
 
