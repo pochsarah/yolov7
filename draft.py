@@ -188,7 +188,6 @@ def max_scores(dict_img: dict):
 #---------------------------------------------------------------------------
 
 def find_image(method: str, path: str):
-    # simplifier le truc
     dict_img = all_scores(path)
     
     if method == "sum":
@@ -200,7 +199,8 @@ def find_image(method: str, path: str):
     else: 
         #raise error
         print("choose bewteen")
-    return max(dict_sc, key=dict_sc.get) #remplacer par la somme par chunk. 
+    return dict_sc
+    #return max(dict_sc, key=dict_sc.get) #remplacer par la somme par chunk. 
     
 def chunk_unlabelled(path, budget):
     with open(path) as f:
@@ -210,7 +210,7 @@ def chunk_unlabelled(path, budget):
     with open(liste, 'r') as f:
         liste = f.read().splitlines()
     
-    random.seed(0)
+    random.seed(42)
     random.shuffle(liste)  
     
     return [liste[i*budget:(i+1)*budget] for i in range((len(liste)+budget-1)//budget)]
@@ -228,54 +228,42 @@ def random_chunk(path_data, chunks):
     
 
 def select_chunk(path_label, path_data, method, chunks) :  
-    file = find_image(method, path_label)
+    dict_sc = find_image(method, path_label)
+    liste_img = [[key.replace('txt', 'jpg'), value] for key, value in dict_sc.items()]
+    sum_chunks = [0]*len(chunks)
+    for it in liste_img:
+        for i in range(len(chunks)):
+            for j in range(len(chunks[i])):
+                if it[0] in chunks[i][j]:
+                    sum_chunks[i] += it[1]
+    to_remove = np.argmax(sum_chunks)
     
-    file = file.replace("txt", "jpg")    
-
-    for j in range(len(chunks)):
-        for i in range(len(chunks[j])):
-            if file in chunks[j][i]:
-                to_remove = j 
-                break
-    
-    add_remove_images(path_data, chunks[j])
-    return j    
+    add_remove_images(path_data, chunks[to_remove])
+    return to_remove 
  
 
 
 if __name__ == '__main__':
     
-    path = "./act_lear/run12/labels/"
+    path = "C:/Users/sarah/Documents/Memoire/v5/test/final_baseline_subset1_custom_linear_SGD6/labels/"
 
-    path_data = "./data/data.yaml"
+    path_data = "./data/subset_1.yaml"
 
-    chunks = chunk_unlabelled(path_data, 5)
+    chunks = chunk_unlabelled(path_data, 2)
+    print(len(chunks))
     
-    method = "random"
+    method = "sum"
     
-    if method == "sum":
+    if method == "random":
         j = random_chunk(path_data, chunks)
     else: 
-        j = select_chunk(path, path_data, method)
+        j = select_chunk(path, path_data, method, chunks)
+    
+    
         
     print(j)
-    print(chunks[j])
+    print(chunks[j]) 
     chunks.remove(chunks[j])
-    print(chunks)
+    print(len(chunks))
         
-    
-
-
-    """
-        fonction qui : 
-            si choix random : choisit une image de manière aléatoire -> déplace tout son paquet 
-            si choix non randome : 
-                récupère les labels des images testées
-                calcule le score pour chaque detection 
-                aggrege selon max ,avg, sum pour chaque image 
-                fait la somme par paquet
-                deplace le paquet avec la plus grosse valeur
-
-        retourne un nom d'image 
-        """
     

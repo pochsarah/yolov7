@@ -716,7 +716,7 @@ if __name__ == '__main__':
 
     # Test (Unlabelled) set séparé en plusieurs parties qui seront 
     #déplacée d'un seul bloc
-    chunks = draft.chunk_unlabelled(opt.data, 5)
+    chunks = draft.chunk_unlabelled(opt.data, 10)
     
     i = 0 #nb of epoch
     nb_loop = 1
