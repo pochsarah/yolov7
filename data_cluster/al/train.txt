@@ -228,3 +228,13 @@
 /share/projects/semmacape/Data_Semmacape_2/416_empty/200521_133_20959_343.jpg
 /share/projects/semmacape/Data_Semmacape_2/416_empty/200520_133_4127_766.jpg
 /share/projects/semmacape/Data_Semmacape_2/416_empty/200521_111_16716_610.jpg
+/share/projects/semmacape/Data_Semmacape_2/416_empty/200520_111_5984_497.jpg
+/share/projects/semmacape/Data_Semmacape_2/416_empty/200521_133_16144_516.jpg
+/share/projects/semmacape/Data_Semmacape_2/416_empty/200521_133_19376_748.jpg
+/share/projects/semmacape/Data_Semmacape_2/416_empty/200520_111_4929_590.jpg
+/share/projects/semmacape/Data_Semmacape_2/416_empty/200520_111_5248_604.jpg
+/share/projects/semmacape/Data_Semmacape_2/416_empty/200520_133_7551_210.jpg
+/share/projects/semmacape/Data_Semmacape_2/416_empty/200520_133_7556_817.jpg
+/share/projects/semmacape/Data_Semmacape_2/416_empty/200520_111_5953_504.jpg
+/share/projects/semmacape/Data_Semmacape_2/416_empty/200521_133_19376_322.jpg
+/share/projects/semmacape/Data_Semmacape_2/416_empty/200520_111_5248_489.jpg
