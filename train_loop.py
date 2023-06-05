@@ -752,7 +752,7 @@ if __name__ == '__main__':
         path_label = path_label.replace('train', 'test')
         path_label += "/labels/"
         
-        method = "maximum"
+        method = "random"
         
         if method == "random":
             j = draft.random_chunk(path_data, chunks)
