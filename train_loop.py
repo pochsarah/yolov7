@@ -708,6 +708,8 @@ if __name__ == '__main__':
     parser.add_argument('--save-conf', action='store_true', help='save confidences in --save-txt labels')
     parser.add_argument('--save-json', action='store_true', help='save a cocoapi-compatible JSON results file')
     parser.add_argument('--no-trace', action='store_true', help='don`t trace model')
+    parser.add_argument('--aggreg', default='random', help='random, maximum, average or sum')
+
     
     opt = parser.parse_args()
 
@@ -752,7 +754,7 @@ if __name__ == '__main__':
         path_label = path_label.replace('train', 'test')
         path_label += "/labels/"
         
-        method = "random"
+        method = opt.aggreg
         
         if method == "random":
             j = draft.random_chunk(path_data, chunks)

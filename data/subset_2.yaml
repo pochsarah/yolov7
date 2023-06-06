@@ -1,9 +1,0 @@
-train: data_cluster/baseline/subset_2/train.txt
-val: data_cluster/baseline/subset_2/val.txt
-test: data_cluster/baseline/subset_2/test.txt
-
-# number of classes
-nc: 20
-
-# class names
-names : ["Algue","Dauphin_BleuBlanc","Dauphin_Commun","Déchet","Poisson","Fou_Bassan_Pose","Fou_Bassan_Vol","Goeland_Pose","Goeland_Vol","Grand_Dauphin","Marsouin","Meduse","Petit_Puffin_Pose","Petit_Puffin_Vol","Requin","Sterne_Pose","Sterne_Vol","Delphinid_Ind.","Bateau","Inconnu"]
