@@ -1,6 +1,6 @@
 train: data_cluster/al/train.txt
 val: data_cluster/al/val.txt
-test: data_cluster/al/unlabelled.txt
+test: data_cluster/al/test.txt
 
 # number of classes
 nc: 20

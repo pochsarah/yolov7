@@ -10,10 +10,4 @@ conda activate yolov7
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/share/castor/home/e1800093/.conda/envs/yolov7/lib
 
 
-#  --name test_layers --linear-lr
-
-python -u train.py --weights yolov7_training.pt --cfg cfg/training/yolov7.yaml --data data/subset_test_al.yaml --hyp data/hyp.scratch.evolved.yaml --epochs 210 --img-size 416 --device 0 --single-cls --workers 4 --project baseline_240/train --name run0
-
-#python -u train.py --weights yolov7_training.pt --cfg cfg/training/yolov7.yaml --data data/dataset.yaml --hyp data/hyp.scratch.evolved.yaml --epochs 200 --img-size 416 --device 0 --single-cls --workers 4 --project baseline --name run1
-#rm baseline/train/run1/weights/*_*
-#python -u train_loop.py --weights yolov7_training.pt --cfg cfg/training/yolov7.yaml --data data/al.yaml --hyp data/hyp.scratch.evolved.yaml --epochs 15 --img-size 416 --device 0 --single-cls --workers 4 --project exp_random/train --name run0 --save-txt --save-conf --task test
+python -u test.py --weights /share/castor/home/e1800093/yolov7/exp/train/run0_2_3_4_5_6_7_8_9_10_11_12_13_14/weights/best.pt --data data/al.yaml --img-size 416 --task test --device 0 --single-cls --verbose --results/test --name exp
