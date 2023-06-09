@@ -1,6 +1,6 @@
 train: data_cluster/10_90/sum/train.txt
 val: data_cluster/10_90/sum/val.txt
-test: data_cluster/10_90/sum/unlabelled.txt
+test: data_cluster/10_90/sum/test.txt
 
 # number of classes
 nc: 20

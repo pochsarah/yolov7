@@ -1,6 +1,6 @@
 train: data_cluster/10_90/maximum/train.txt
 val: data_cluster/10_90/maximum/val.txt
-test: data_cluster/10_90/maximum/unlabelled.txt
+test: data_cluster/10_90/maximum/test.txt
 
 # number of classes
 nc: 20
