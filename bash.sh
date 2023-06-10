@@ -13,5 +13,5 @@ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/share/castor/home/e1800093/.conda/envs/
 #python -u test.py --weights /share/castor/home/e1800093/yolov7/baseline_240/train/run0/weights/best.pt --data data/dataset.yaml --img-size 416 --task test --device 0 --single-cls --verbose --project results/test --name baseline --iou-thres 0.5
 #/share/castor/home/e1800093/yolov7/exp_avg/train/run0_2_3_4_5_6_7_8_9_10_11_12_13_14/weights/best.pt
 
-python -u train_loop.py --weights yolov7_training.pt --cfg cfg/training/yolov7.yaml --data data/al.yaml --hyp data/hyp.scratch.evolved.yaml --epochs 15 --img-size 416 --device 0 --single-cls --workers 4 --project 50_sum/train --name sum0 --save-txt --save-conf --task test --aggreg sum
+python -u train_loop.py --weights yolov7_training.pt --cfg cfg/training/yolov7.yaml --data data/al.yaml --hyp data/hyp.scratch.evolved.yaml --epochs 15 --img-size 416 --device 0 --single-cls --workers 4 --project 50_sum/train --name sum0_2_3_4_5_6_7_8_9_10_11_12_13 --save-txt --save-conf --task test --aggreg sum
 
