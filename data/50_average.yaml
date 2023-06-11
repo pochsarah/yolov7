@@ -1,6 +1,6 @@
-train: data_cluster/10_90/average/train.txt
-val: data_cluster/10_90/average/val.txt
-test: data_cluster/10_90/average/unlabelled.txt
+train: data_cluster/50_50/average/train.txt
+val: data_cluster/50_50/average/val.txt
+test: data_cluster/50_50/average/test.txt
 
 # number of classes
 nc: 20
