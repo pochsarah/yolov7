@@ -1,6 +1,6 @@
 train: data_cluster/50_50/random/train.txt
 val: data_cluster/50_50/random/val.txt
-test: data_cluster/50_50/random/unlabellled.txt
+test: data_cluster/50_50/random/unlabelled.txt
 
 # number of classes
 nc: 20
